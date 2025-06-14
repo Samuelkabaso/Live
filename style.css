@@ -1,3 +1,8 @@
+@font-face {
+  font-family: "FontAwesome";
+  src: url("https://samuelkabaso.github.io/Live/applab/fa-regular-400.woff2") format("woff2");
+  font-display: swap;
+}
 
 
 @font-face {
