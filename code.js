@@ -44,9 +44,6 @@ onEvent("home111", "click", function( ) {
 
 
 
-
-
-// ✅ Landlord Login + Display Matching Property Details
 onEvent("landlordloginbutton", "click", function() {
   var username = getText("username_input").trim().toLowerCase();
   var password = getText("password_input13").trim();
@@ -56,49 +53,39 @@ onEvent("landlordloginbutton", "click", function() {
     return;
   }
 
-  readRecords("HomeInformation", {}, function(records) {
-    var matchedUser = null;
+  // Query Firestore for matching landlord
+  db.collection("HomeInformation")
+    .where("username", "==", username)
+    .where("password", "==", password)
+    .get()
+    .then((querySnapshot) => {
+      if (!querySnapshot.empty) {
+        const matchedUser = querySnapshot.docs[0].data();
 
-    for (var i = 0; i < records.length; i++) {
-      var r = records[i];
+        setScreen("landlordprofile");
+        setText("login_status", "✅ Login successful!");
 
-      if (r.username && r.password &&
-          r.username.toLowerCase() === username &&
-          r.password === password) {
-        matchedUser = r;
-        break;
+        var output = "👤 Username: " + matchedUser.username + "\n" +
+                     "📍 Location: " + matchedUser.Location + "\n" +
+                     "🏠 Description: " + matchedUser.Description + "\n" +
+                     "💲 Price: " + matchedUser.Price + "\n" +
+                     "📌 Status: " + matchedUser.Status;
+
+        setText("text_area1propertDeatils", output);
+      } else {
+        setText("login_status", "❌ Incorrect Username or Password.");
       }
-    }
-
-    if (matchedUser) {
-      setScreen("landlordprofile"); // Navigate to landlord profile screen
-      setText("login_status", "✅ Login successful!");
-
-      // Display only that user's property details
-      var output = "👤 Username: " + matchedUser.username + "\n" +
-                   "📍 Location: " + matchedUser.Location + "\n" +
-                   "🏠 Description: " + matchedUser.Description + "\n" +
-                   "💲 Price: " + matchedUser.Price + "\n" +
-                   "📌 Status: " + matchedUser.Status;
-
-      setText("text_area1propertDeatils", output);
-
-    } else {
-      setText("login_status", "❌ Incorrect Username or Password.");
-      setText("landlordprofilename", "Login successful"); // This line likely needs fixing
-    }
-  });
+    })
+    .catch((error) => {
+      console.error("Error logging in:", error);
+      setText("login_status", "⚠️ Login failed. Try again.");
+    });
 });
 
 
 
 
 
-
-
-      
-
-// ✅ Tenant Login Authentication (Validates credentials from "UserDetails")
 onEvent("tenantloginbutton", "click", function() {
   var username = getText("username_input").trim().toLowerCase();
   var password = getText("password_input13").trim();
@@ -108,38 +95,29 @@ onEvent("tenantloginbutton", "click", function() {
     return;
   }
 
-  readRecords("UserDetails", {}, function(records) {
-    if (!Array.isArray(records) || records.length === 0) {
-      setText("login_status", "❌ Error: No users found in the database.");
-      return;
-    }
+  db.collection("UserDetails")
+    .where("username", "==", username)
+    .where("password", "==", password)
+    .get()
+    .then((querySnapshot) => {
+      if (!querySnapshot.empty) {
+        const matchedUser = querySnapshot.docs[0].data();
 
-    var matchedUser = null;
-
-    // Iterate over records instead of using `.find()`
-    for (var i = 0; i < records.length; i++) {
-      if (records[i].username && records[i].password &&
-          records[i].username.toLowerCase() === username &&
-          records[i].password === password) {
-        matchedUser = records[i]; // Store matched user
-        break; // Exit loop once a match is found
+        setScreen("TenantSearchScreen");
+        console.log("Login Successful: " + matchedUser.email + " | " + matchedUser.phone);
+      } else {
+        setText("login_status", "❌ Incorrect Username or Password.");
       }
-    }
-
-    if (matchedUser) {
-      setScreen("TenantSearchScreen"); // Proceed to tenant search screen
-      console.log("Login Successful: " + matchedUser.email + " | " + matchedUser.phone);
-    } else {
-      setText("login_status", "❌ Incorrect Username or Password.");
-    }
-  });
+    })
+    .catch((error) => {
+      console.error("Error during login:", error);
+      setText("login_status", "⚠️ Login failed. Please try again.");
+    });
 });
 
 
 
-
-//Landlord sign up//
-
+      
 onEvent("UpdateStatus", "click", function() {
   var inputs = {
     Location: getText("LocationDropdown").trim(),
@@ -153,7 +131,6 @@ onEvent("UpdateStatus", "click", function() {
     password: getText("LandLordPasswordInput").trim()
   };
 
-  // Validate all fields except Status and Image
   var requiredKeys = ["Location", "Description", "Price", "username", "Phone", "Email", "password"];
   for (var i = 0; i < requiredKeys.length; i++) {
     var key = requiredKeys[i];
@@ -163,94 +140,133 @@ onEvent("UpdateStatus", "click", function() {
     }
   }
 
-  readRecords("PendingApproval", {}, function(records) {
-    var conflictFound = false;
+  // Check for conflicts in Firestore
+  db.collection("PendingApproval")
+    .where("Email", "==", inputs.Email)
+    .get()
+    .then((emailSnapshot) => {
+      if (!emailSnapshot.empty) throw "Email already exists";
 
-    for (var i = 0; i < records.length; i++) {
-      var record = records[i];
+      return db.collection("PendingApproval")
+        .where("Phone", "==", inputs.Phone)
+        .get();
+    })
+    .then((phoneSnapshot) => {
+      if (!phoneSnapshot.empty) throw "Phone number already exists";
 
-      if (
-        (record.Email && record.Email.toLowerCase().trim() === inputs.Email.toLowerCase()) ||
-        (record.Phone && record.Phone.trim() === inputs.Phone) ||
-        (record.password && record.password === inputs.password)
-      ) {
-        conflictFound = true;
-        break;
+      return db.collection("PendingApproval")
+        .where("password", "==", inputs.password)
+        .get();
+    })
+    .then((passwordSnapshot) => {
+      if (!passwordSnapshot.empty) throw "Password already exists";
+
+      // No conflicts — add to Firestore
+      return db.collection("PendingApproval").add(inputs);
+    })
+    .then(() => {
+      setText("UploadStatus2", "✅ Property added successfully! Submit your images with your details via WhatsApp to admin (+260975525434) for verification and approval.");
+    })
+    .catch((error) => {
+      if (typeof error === "string") {
+        setText("UploadStatus2", `❌ A property with this ${error.toLowerCase()} already exists.`);
+      } else {
+        console.error("Error adding property:", error);
+        setText("UploadStatus2", "❌ Failed to add property.");
       }
-    }
-
-    if (conflictFound) {
-      setText("UploadStatus2", "❌ A property with this email, phone number, or password already exists.");
-    } else {
-      createRecord("PendingApproval", inputs, function(success) {
-        setText("UploadStatus2", success
-          ? "✅ Property added successfully !Submit your Images  with your details via Whatsapp to admin  (+260975525434) for verification and approval "
-          : "❌ Failed to add property.");
-      });
-    }
-  });
+    });
 });
- 
 
 
 
 
-// ✅ Admin Fetch Landlord Details
 onEvent("AdminLandlordordsbutton", "click", function() {
-  readRecords("HomeInformation", {}, function(records) {
-    var outputText = "📋 Landlords Details:\n\n";
-    for (var i = 0; i < records.length; i++) {
-      var r = records[i];
-      outputText += 
-        "🔹 Record #" + (i + 1) + "\n" +
-        "🆔 ID: " + r.id + "\n" +
-        "👤 Name: " + (r.username || "No name") + "\n" +
-        "📞 Phone: " + (r.Phone || "Not available") + "\n" +
-        "📍 Location: " + (r.Location || "No location provided") + "\n" +
-        "📝 Description: " + (r.Description || "No description") + "\n\n";
-    }
-    setText("OutputNames", outputText);
-  });
+  db.collection("HomeInformation")
+    .get()
+    .then((querySnapshot) => {
+      var outputText = "📋 Landlords Details:\n\n";
+      var i = 0;
+
+      querySnapshot.forEach((doc) => {
+        var r = doc.data();
+        i++;
+
+        outputText += 
+          "🔹 Record #" + i + "\n" +
+          "🆔 ID: " + doc.id + "\n" +
+          "👤 Name: " + (r.username || "No name") + "\n" +
+          "📞 Phone: " + (r.Phone || "Not available") + "\n" +
+          "📍 Location: " + (r.Location || "No location provided") + "\n" +
+          "📝 Description: " + (r.Description || "No description") + "\n\n";
+      });
+
+      setText("OutputNames", outputText);
+    })
+    .catch((error) => {
+      console.error("Error fetching landlord details:", error);
+      setText("OutputNames", "❌ Failed to load landlord details.");
+    });
 });
+
 
 
 
 
 onEvent("AdminTenantsButton", "click", function() {
-  readRecords("UserDetails", {}, function(records) {
-    var outputText = "🏘️ Tenants Details:\n\n";
-    for (var i = 0; i < records.length; i++) {
-      var r = records[i];
-      outputText += 
-        "🔸 Record #" + (i + 1) + "\n" +
-        "🆔 ID: " + r.id + "\n" +
-        "👤 Name: " + (r.username || "No name") + "\n" +
-        "📞 Phone: " + (r.phone || "Not available") + "\n\n";
-    }
-    setText("OutputNames", outputText);
-  });
+  db.collection("UserDetails")
+    .get()
+    .then((querySnapshot) => {
+      var outputText = "🏘️ Tenants Details:\n\n";
+      var i = 0;
+
+      querySnapshot.forEach((doc) => {
+        var r = doc.data();
+        i++;
+
+        outputText += 
+          "🔸 Record #" + i + "\n" +
+          "🆔 ID: " + doc.id + "\n" +
+          "👤 Name: " + (r.username || "No name") + "\n" +
+          "📞 Phone: " + (r.phone || "Not available") + "\n\n";
+      });
+
+      setText("OutputNames", outputText);
+    })
+    .catch((error) => {
+      console.error("Error fetching tenants:", error);
+      setText("OutputNames", "❌ Failed to load tenant details.");
+    });
 });
 
 
 
 
-
-// ✅ Admin  Fetch Pending Details
 onEvent("PendingButton", "click", function() {
-  readRecords("PendingApproval", {}, function(records) {
-    var outputText = "⏳ Pending Landlord Submissions:\n\n";
-    for (var i = 0; i < records.length; i++) {
-      var r = records[i];
-      outputText += 
-        "📄 Entry #" + (i + 1) + "\n" +
-        "🆔 Record ID: " + r.id + "\n" +
-        "👤 Name: " + (r.username || "No name") + "\n" +
-        "📞 Phone: " + (r.Phone || "Not available") + "\n" +
-        "📍 Location: " + (r.Location || "No location provided") + "\n" +
-        "📝 Description: " + (r.Description || "No description") + "\n\n";
-    }
-    setText("OutputNames", outputText);
-  });
+  db.collection("PendingApproval")
+    .get()
+    .then((querySnapshot) => {
+      var outputText = "⏳ Pending Landlord Submissions:\n\n";
+      var i = 0;
+
+      querySnapshot.forEach((doc) => {
+        var r = doc.data();
+        i++;
+
+        outputText += 
+          "📄 Entry #" + i + "\n" +
+          "🆔 Record ID: " + doc.id + "\n" +
+          "👤 Name: " + (r.username || "No name") + "\n" +
+          "📞 Phone: " + (r.Phone || "Not available") + "\n" +
+          "📍 Location: " + (r.Location || "No location provided") + "\n" +
+          "📝 Description: " + (r.Description || "No description") + "\n\n";
+      });
+
+      setText("OutputNames", outputText);
+    })
+    .catch((error) => {
+      console.error("Error fetching pending submissions:", error);
+      setText("OutputNames", "❌ Failed to load pending details.");
+    });
 });
 
 
@@ -258,8 +274,6 @@ onEvent("PendingButton", "click", function() {
 
 
 
-
-// ✅ Tenant Property Search Function with Price Filter
 
 var searchResults = [];
 var currentResultIndex = 0;
@@ -270,23 +284,30 @@ onEvent("tenantsearchbutton", "click", function() {
   var chosenStatus = getText("DropdownStatusbutton");
   var chosenPrice = getText("dropdownpricetenant");
 
-  readRecords("HomeInformation", {
-    Location: chosenLocation,
-    Description: chosenDescription,
-    Status: chosenStatus,
-    Price: chosenPrice
-  }, function(records) {
-    if (records.length > 0) {
-      searchResults = records;
-      currentResultIndex = 0;
-      displayCurrentResult();
-    } else {
-      searchResults = [];
-      currentResultIndex = 0;
-      setText("Descriptionoutput", "❌ No matching records found.");
-      setImageURL("imageDisplayTenantSearch", "");
-    }
-  });
+  let query = db.collection("HomeInformation");
+
+  if (chosenLocation) query = query.where("Location", "==", chosenLocation);
+  if (chosenDescription) query = query.where("Description", "==", chosenDescription);
+  if (chosenStatus) query = query.where("Status", "==", chosenStatus);
+  if (chosenPrice) query = query.where("Price", "==", chosenPrice);
+
+  query.get()
+    .then((querySnapshot) => {
+      if (!querySnapshot.empty) {
+        searchResults = querySnapshot.docs.map(doc => doc.data());
+        currentResultIndex = 0;
+        displayCurrentResult();
+      } else {
+        searchResults = [];
+        currentResultIndex = 0;
+        setText("Descriptionoutput", "❌ No matching records found.");
+        setImageURL("imageDisplayTenantSearch", "");
+      }
+    })
+    .catch((error) => {
+      console.error("Error fetching properties:", error);
+      setText("Descriptionoutput", "⚠️ Failed to load properties.");
+    });
 });
 
 onEvent("nextResultButton", "click", function() {
@@ -304,7 +325,7 @@ function displayCurrentResult() {
     "🏠 Description: " + record.Description + "\n" +
     "📌 Status: " + record.Status + "\n" +
     "💰 Price: " + record.Price + "\n" +
-    "🆔 Record ID: " + record.id;
+    "🆔 Record ID: " + (record.id || "N/A");
 
   setText("Descriptionoutput", outputText);
   setImageURL("imageDisplayTenantSearch", record.Image || "");
@@ -319,43 +340,42 @@ function displayCurrentResult() {
 
 
 
-// 🔁 Function to refresh dropdowns with latest values from the database (including Price)
+
 function refreshDropdowns() {
-  readRecords("HomeInformation", {}, function(records) {
-    var locationList = [];
-    var descriptionList = [];
-    var statusList = [];
-    var priceList = [];
+  db.collection("HomeInformation")
+    .get()
+    .then((querySnapshot) => {
+      var locationList = new Set();
+      var descriptionList = new Set();
+      var statusList = new Set();
+      var priceList = new Set();
 
-    for (var i = 0; i < records.length; i++) {
-      var r = records[i];
+      querySnapshot.forEach((doc) => {
+        var r = doc.data();
 
-      if (r.Location && locationList.indexOf(r.Location) === -1) {
-        locationList.push(r.Location);
-      }
-      if (r.Description && descriptionList.indexOf(r.Description) === -1) {
-        descriptionList.push(r.Description);
-      }
-      if (r.Status && statusList.indexOf(r.Status) === -1) {
-        statusList.push(r.Status);
-      }
-      if (r.Price && priceList.indexOf(r.Price) === -1) {
-        priceList.push(r.Price);
-      }
-    }
+        if (r.Location) locationList.add(r.Location);
+        if (r.Description) descriptionList.add(r.Description);
+        if (r.Status) statusList.add(r.Status);
+        if (r.Price) priceList.add(r.Price);
+      });
 
-    setProperty("dropdownLocationsearchtenantbutton", "options", locationList);
-    setProperty("dropdownnumberofroomsbutton", "options", descriptionList);
-    setProperty("DropdownStatusbutton", "options", statusList);
-    setProperty("dropdownpricetenant", "options", priceList);
-  });
+      setProperty("dropdownLocationsearchtenantbutton", "options", Array.from(locationList));
+      setProperty("dropdownnumberofroomsbutton", "options", Array.from(descriptionList));
+      setProperty("DropdownStatusbutton", "options", Array.from(statusList));
+      setProperty("dropdownpricetenant", "options", Array.from(priceList));
+    })
+    .catch((error) => {
+      console.error("Error fetching dropdown values:", error);
+    });
 }
 
 // ✅ Call once at startup
 refreshDropdowns();
 
 // ✅ Or call this again after uploading new data:
-// createRecord(...) -> inside success callback: refreshDropdowns();
+refreshDropdowns();
+
+
 
 
 
@@ -372,156 +392,98 @@ onEvent("next1", "click", function() {
     return;
   }
 
-  // Check if email or phone already exists
-  readRecords("UserDetails", {}, function(records) {
-    var conflict = false;
+  // Check if email or phone already exists in Firestore
+  db.collection("UserDetails")
+    .where("email", "==", email)
+    .get()
+    .then((emailSnapshot) => {
+      if (!emailSnapshot.empty) throw "Email already exists";
 
-    for (var i = 0; i < records.length; i++) {
-      var r = records[i];
-      if (
-        (r.email && r.email.toLowerCase().trim() === email.toLowerCase()) ||
-        (r.phone && r.phone.trim() === phone)
-      ) {
-        conflict = true;
-        break;
-      }
-    }
+      return db.collection("UserDetails").where("phone", "==", phone).get();
+    })
+    .then((phoneSnapshot) => {
+      if (!phoneSnapshot.empty) throw "Phone number already exists";
 
-    if (conflict) {
-      setText("signup_status", "❌ This email or phone number is already registered.");
-      return;
-    }
-
-    // ✅ Proceed with creating account
-    createRecord("UserDetails", {
-      email: email,
-      phone: phone,
-      password: password
-    }, function(success) {
-      if (success) {
-        setText("signup_status", "✅ Account created successfully!");
-        // Optional: clear inputs
-        // setText("email_input4", "");
-        // setText("phone_input4", "");
-        // setText("Password_input5", "");
+      // ✅ Proceed with creating account
+      return db.collection("UserDetails").add({
+        email: email,
+        phone: phone,
+        password: password
+      });
+    })
+    .then(() => {
+      setText("signup_status", "✅ Account created successfully!");
+    })
+    .catch((error) => {
+      if (typeof error === "string") {
+        setText("signup_status", `❌ This ${error.toLowerCase()} is already registered.`);
       } else {
+        console.error("Error creating account:", error);
         setText("signup_status", "❌ Error creating account. Try again.");
       }
     });
-  });
 });
 
 
 
 
-// 🔎 Count matching search results and display total
-onEvent("tenantsearchbutton", "click", function( ) {
-readRecords("HomeInformation", {}, function(records) {
-    var matchCount = 0;
 
-    var selectedLocation = getText("dropdownLocationsearchtenantbutton");
-    var selectedDescription = getText("dropdownnumberofroomsbutton");
-    var selectedStatus = getText("DropdownStatusbutton");
+onEvent("tenantsearchbutton", "click", function() {
+  var selectedLocation = getText("dropdownLocationsearchtenantbutton");
+  var selectedDescription = getText("dropdownnumberofroomsbutton");
+  var selectedStatus = getText("DropdownStatusbutton");
 
-    for (var i = 0; i < records.length; i++) {
-      var record = records[i];
+  let query = db.collection("HomeInformation");
 
-      if (
-        (selectedLocation === "" || record.Location === selectedLocation) &&
-        (selectedDescription === "" || record.Description === selectedDescription) &&
-        (selectedStatus === "" || record.Status === selectedStatus)
-      ) {
-        matchCount++;
-      }
-    }
+  if (selectedLocation) query = query.where("Location", "==", selectedLocation);
+  if (selectedDescription) query = query.where("Description", "==", selectedDescription);
+  if (selectedStatus) query = query.where("Status", "==", selectedStatus);
 
-    setText("searchResultCount", "🔍 " + matchCount + " result(s) found");
-  });  
+  query.get()
+    .then((querySnapshot) => {
+      setText("searchResultCount", "🔍 " + querySnapshot.size + " result(s) found");
+    })
+    .catch((error) => {
+      console.error("Error fetching search results:", error);
+      setText("searchResultCount", "⚠️ Failed to load search results.");
+    });
 });
-// 🕒 Auto logout after 2 minute of inactivity
-var logoutDelay = 2 * 60 * 1000; // 1 minute in milliseconds
-var logoutTimer;
-
-// 🔐 Function to perform logout
-function logUserOut() {
-  stopTimedLoop(logoutTimer);
-  setText("sessionStatus", "⏳ Logged out due to inactivity.");
-  setScreen("loginscreen"); // Replace with your login/home screen ID
-
-  // Optional: clear session inputs
-  // setText("email_input", "");
-  // setText("password_input", "");
-}
-
-// 🔁 Reset the logout timer on interaction
-function resetLogoutTimer() {
-  if (logoutTimer) {
-    stopTimedLoop(logoutTimer);
-  }
-  logoutTimer = timedLoop(logoutDelay, function() {
-    logUserOut();
-  });
-}
-
-// ▶️ Start session tracking after login
-onEvent("tenantloginbutton", "click", function() {
-  // Perform your login logic here...
-  setText("logged", "✅ Logged in.");
-
-  // Start/reset the inactivity timer
-  resetLogoutTimer();
-
-  // Detect activity on the main app screen to reset timer
-  onEvent("TenantSearchScreen", "mousemove", resetLogoutTimer);
-  onEvent("TenantSearchScreen", "keydown", resetLogoutTimer);
-  onEvent("TenantSearchScreen", "touchstart", resetLogoutTimer);
-});
-  
 
 
-      
-// 🔁 Update status in the database when dropdown changes
+
+
 onEvent("UpdateStatus", "change", function() {
   var newStatus = getText("HomeStatusLandlord");
-  var loggedInUsername = getText("username_input").trim().toLowerCase(); // Adjust if you're storing this differently
+  var loggedInUsername = getText("username_input").trim().toLowerCase();
 
-  // Find the matching landlord record and update its status
-  readRecords("HomeInformation", {}, function(records) {
-    var matchFound = false;
-
-    for (var i = 0; i < records.length; i++) {
-      var r = records[i];
-
-      if (r.username && r.username.toLowerCase() === loggedInUsername) {
-        matchFound = true;
-
-        updateRecord("HomeInformation", r.id, {
-          Status: newStatus
-        }, function(success) {
-          if (success) {
-            setText("statusUpdateLabel", "✅ Status updated to: " + newStatus);
-          } else {
-            setText("statusUpdateLabel", "❌ Failed to update status.");
-          }
-        });
-
-        break; // Exit loop after updating
+  db.collection("HomeInformation")
+    .where("username", "==", loggedInUsername)
+    .get()
+    .then((querySnapshot) => {
+      if (!querySnapshot.empty) {
+        const docRef = querySnapshot.docs[0].ref;
+        return docRef.update({ Status: newStatus });
+      } else {
+        throw "No matching user found";
       }
-    }
-
-    if (!matchFound) {
-      setText("statusUpdateLabel", "⚠️ No matching user found in database.");
-    }
-  });
+    })
+    .then(() => {
+      setText("statusUpdateLabel", "✅ Status updated to: " + newStatus);
+    })
+    .catch((error) => {
+      if (error === "No matching user found") {
+        setText("statusUpdateLabel", "⚠️ No matching user found in database.");
+      } else {
+        console.error("Error updating status:", error);
+        setText("statusUpdateLabel", "❌ Failed to update status.");
+      }
+    });
 });
 
 
 
 
 
-
-
-//fetch profile image
 onEvent("landlordloginbutton", "click", function() {
   var username = getText("username_input").trim().toLowerCase();
   var password = getText("password_input13").trim();
@@ -532,37 +494,30 @@ onEvent("landlordloginbutton", "click", function() {
     return;
   }
 
-  readRecords("HomeInformation", {}, function(records) {
-    var matchedUser = null;
+  db.collection("HomeInformation")
+    .where("username", "==", username)
+    .where("password", "==", password)
+    .get()
+    .then((querySnapshot) => {
+      if (!querySnapshot.empty) {
+        const matchedUser = querySnapshot.docs[0].data();
 
-    for (var i = 0; i < records.length; i++) {
-      var r = records[i];
-
-      if (
-        r.username && r.password &&
-        r.username.toLowerCase() === username &&
-        r.password === password
-      ) {
-        matchedUser = r;
-        break;
+        setText("login_status", "✅ Login successful!");
+        setImageURL("LandlordProfileimage", matchedUser.Image || "");
+      } else {
+        setText("login_status", "❌ Incorrect Username or Password.");
+        setImageURL("LandlordProfileimage", "");
       }
-    }
-
-    if (matchedUser) {
-      setText("login_status", "✅ Login successful!");
-      setImageURL("LandlordProfileimage", matchedUser.Image || "");
-    } else {
-      setText("login_status", "❌ Incorrect Username or Password.");
-      setImageURL("LandlordProfileimage", "");
-    }
-  });
+    })
+    .catch((error) => {
+      console.error("Error logging in:", error);
+      setText("login_status", "⚠️ Login failed. Try again.");
+    });
 });
 
 
 
 
-
-// Approve and move to HomeInformation without setting image/status yet
 onEvent("updateImageStatusButton", "click", function() {
   var newImage = getText("ImageUrlAdmin").trim();
   var newStatus = getText("StatusUpdateAdmin").trim();
@@ -572,37 +527,42 @@ onEvent("updateImageStatusButton", "click", function() {
     return;
   }
 
-  readRecords("PendingApproval", {}, function(records) {
-    if (records.length === 0) {
-      setText("Deletelabel", "❌ No pending records found.");
-      return;
-    }
+  db.collection("PendingApproval")
+    .limit(1) // Get the first pending record
+    .get()
+    .then((querySnapshot) => {
+      if (querySnapshot.empty) throw "No pending records found";
 
-    var recordToApprove = records[0];
-    var recordId = recordToApprove.id;
+      const doc = querySnapshot.docs[0];
+      const recordToApprove = doc.data();
+      const recordId = doc.id;
 
-    // Remove id before creation
-    delete recordToApprove.id;
+      // Add new image and status
+      recordToApprove.Image = newImage;
+      recordToApprove.Status = newStatus;
 
-    // Add new image and status
-    recordToApprove.Image = newImage;
-    recordToApprove.Status = newStatus;
-
-    createRecord("HomeInformation", recordToApprove, function() {
-      deleteRecord("PendingApproval", {id: recordId}, function() {
-        setText("Deletelabel", "✅ Record updated and approved to main database.");
-        setText("HiddenRecordId", "");
-        setText("OutputNames", "");
-      });
+      // Move record to HomeInformation
+      return db.collection("HomeInformation").doc(recordId).set(recordToApprove)
+        .then(() => db.collection("PendingApproval").doc(recordId).delete());
+    })
+    .then(() => {
+      setText("Deletelabel", "✅ Record updated and approved to main database.");
+      setText("HiddenRecordId", "");
+      setText("OutputNames", "");
+    })
+    .catch((error) => {
+      if (error === "No pending records found") {
+        setText("Deletelabel", "❌ No pending records found.");
+      } else {
+        console.error("Error approving record:", error);
+        setText("Deletelabel", "❌ Failed to approve record.");
+      }
     });
-  });
 });
 
 
 
 
-
-// ✅ Admin Login Authentication (Validates credentials from "UserDetails")
 onEvent("Submitadminpasswordbutton", "click", function() {
   var username = getText("AdminUserName").trim().toLowerCase();
   var password = getText("AdminPassword").trim();
@@ -612,102 +572,102 @@ onEvent("Submitadminpasswordbutton", "click", function() {
     return;
   }
 
-  readRecords("Admin", {}, function(records) {
-    if (!Array.isArray(records) || records.length === 0) {
-      setText("AdminLabel", "❌ Error: No users found in the database.");
-      return;
-    }
+  db.collection("Admin")
+    .where("username", "==", username)
+    .where("password", "==", password)
+    .get()
+    .then((querySnapshot) => {
+      if (!querySnapshot.empty) {
+        const matchedUser = querySnapshot.docs[0].data();
 
-    var matchedUser = null;
-
-    // Iterate over records instead of using `.find()`
-    for (var i = 0; i < records.length; i++) {
-      if (records[i].username && records[i].password &&
-          records[i].username.toLowerCase() === username &&
-          records[i].password === password) {
-        matchedUser = records[i]; // Store matched user
-        break; // Exit loop once a match is found
+        setScreen("ADMIN"); // Proceed to admin dashboard
+        console.log("Login Successful: " + matchedUser.email + " | " + matchedUser.phone);
+      } else {
+        setText("AdminLabel", "❌ Incorrect Username or Password.");
       }
-    }
-
-    if (matchedUser) {
-      setScreen("ADMIN"); // Proceed to tenant search screen
-      console.log("Login Successful: " + matchedUser.email + " | " + matchedUser.phone);
-    } else {
-      setText("AdminLabel", "❌ Incorrect Username or Password.");
-    }
-  });
+    })
+    .catch((error) => {
+      console.error("Error during login:", error);
+      setText("AdminLabel", "⚠️ Login failed. Please try again.");
+    });
 });
 
 
 
 
-//Delete Lanlord Logic
 onEvent("DeleteLandlordButton", "click", function() {
-  var targetUsername = getText("DeleteLandlordInpu");
+  var targetUsername = getText("DeleteLandlordInpu").trim().toLowerCase();
 
-  readRecords("HomeInformation", {username: targetUsername}, function(records) {
-    if (records.length > 0) {
-      for (var i = 0; i < records.length; i++) {
-        deleteRecord("HomeInformation", {id: records[i].id}, function(success) {
-          if (success) {
-            console.log("Record deleted successfully.");
-            // Optional: Add a label or alert to show confirmation
-            setText("Deletelabel", "Record deleted.");
-          } else {
-            console.log("Failed to delete record.");
-            setText("Deletelabel", "Failed to delete record.");
-          }
-        });
+  db.collection("HomeInformation")
+    .where("username", "==", targetUsername)
+    .get()
+    .then((querySnapshot) => {
+      if (querySnapshot.empty) throw "Username not found";
+
+      let deletePromises = [];
+      querySnapshot.forEach((doc) => {
+        deletePromises.push(doc.ref.delete());
+      });
+
+      return Promise.all(deletePromises);
+    })
+    .then(() => {
+      setText("Deletelabel", "✅ Landlord record deleted.");
+    })
+    .catch((error) => {
+      if (error === "Username not found") {
+        setText("Deletelabel", "❌ Username not found.");
+      } else {
+        console.error("Error deleting landlord:", error);
+        setText("Deletelabel", "❌ Failed to delete record.");
       }
-    } else {
-      console.log("No matching user found.");
-      setText("Deletelabel", "Username not found.");
-    }
-  });
+    });
 });
 
 
 
 
-//Delete Tenant Logic
-onEvent("DeleteLandlordButton", "click", function() {
-  var targetUsername = getText("DeleteLandlordInpu");
+onEvent("DeleteTenantButton", "click", function() {
+  var targetUsername = getText("DeleteTenantInput").trim().toLowerCase();
 
-  readRecords("UserDetails", {username: targetUsername}, function(records) {
-    if (records.length > 0) {
-      for (var i = 0; i < records.length; i++) {
-        deleteRecord("UserDetails", {id: records[i].id}, function(success) {
-          if (success) {
-            console.log("Record deleted successfully.");
-            // Optional: Add a label or alert to show confirmation
-            setText("Deletelabel", "Record deleted.");
-          } else {
-            console.log("Failed to delete record.");
-            setText("Deletelabel", "Failed to delete record.");
-          }
-        });
+  db.collection("UserDetails")
+    .where("username", "==", targetUsername)
+    .get()
+    .then((querySnapshot) => {
+      if (querySnapshot.empty) throw "Username not found";
+
+      let deletePromises = [];
+      querySnapshot.forEach((doc) => {
+        deletePromises.push(doc.ref.delete());
+      });
+
+      return Promise.all(deletePromises);
+    })
+    .then(() => {
+      setText("Deletelabel", "✅ Tenant record deleted.");
+    })
+    .catch((error) => {
+      if (error === "Username not found") {
+        setText("Deletelabel", "❌ Username not found.");
+      } else {
+        console.error("Error deleting tenant:", error);
+        setText("Deletelabel", "❌ Failed to delete record.");
       }
-    } else {
-      console.log("No matching user found.");
-      setText("Deletelabel", "Username not found.");
-    }
-  });
+    });
 });
 
 
 
-// Search for Landlord on Admin page //
 
 onEvent("SearchButtonAdmin", "click", function() {
-  var searchUsername = getText("DeleteLandlordInpu").toLowerCase();
+  var searchUsername = getText("DeleteLandlordInpu").trim().toLowerCase();
 
-  readRecords("HomeInformation", {}, function(records) {
-    var matchFound = false;
-
-    for (var i = 0; i < records.length; i++) {
-      if (records[i].username && records[i].username.toLowerCase() === searchUsername) {
-        var user = records[i];
+  db.collection("HomeInformation")
+    .where("username", "==", searchUsername)
+    .get()
+    .then((querySnapshot) => {
+      if (!querySnapshot.empty) {
+        const user = querySnapshot.docs[0].data();
 
         var info = 
           "👤 Username: " + (user.username || "") + "\n" +
@@ -717,51 +677,46 @@ onEvent("SearchButtonAdmin", "click", function() {
           "💰 Price: " + (user.Price || "") + "\n" +
           "📌 Status: " + (user.Status || "") + "\n" +
           "📍 Location: " + (user.Location || "") + "\n" +
-          "🆔 Record ID: " + (user.id || "");
+          "🆔 Record ID: " + querySnapshot.docs[0].id;
 
         setText("OutputNames", info);
-        matchFound = true;
-        break;
+      } else {
+        setText("OutputNames", "❌ No user found.");
       }
-    }
-
-    if (!matchFound) {
-      setText("OutputNames", "❌ No user found.");
-    }
-  });
+    })
+    .catch((error) => {
+      console.error("Error searching landlord:", error);
+      setText("OutputNames", "⚠️ Failed to search.");
+    });
 });
 
 
 
 
-
-// Search for user on Admin page //
 onEvent("FindTenantAdmin", "click", function() {
-  var searchUsername = getText("DeleteLandlordInpu").toLowerCase();
+  var searchUsername = getText("DeleteLandlordInpu").trim().toLowerCase();
 
-  readRecords("UserDetails", {}, function(records) {
-    var matchFound = false;
+  db.collection("UserDetails")
+    .where("username", "==", searchUsername)
+    .get()
+    .then((querySnapshot) => {
+      if (!querySnapshot.empty) {
+        const user = querySnapshot.docs[0].data();
 
-    for (var i = 0; i < records.length; i++) {
-      if (records[i].username.toLowerCase() === searchUsername) {
-        var user = records[i];
         var info = "Username: " + user.username + 
                    "\nEmail: " + user.email + 
                    "\nPhone: " + user.phone;
+
         setText("OutputNames", info);
-        matchFound = true;
-        break;
+      } else {
+        setText("OutputNames", "❌ No user found.");
       }
-    }
-
-    if (!matchFound) {
-      setText("OutputNames", "No user found.");
-    }
-  });
+    })
+    .catch((error) => {
+      console.error("Error searching tenant:", error);
+      setText("OutputNames", "⚠️ Failed to search.");
+    });
 });
-
-
-
 
 
 
@@ -783,84 +738,60 @@ onEvent("landlordloginbutton", "click", function() {
 
 
 
-// Store the number of records at startup
 var lastCount = 0;
 
-// Check for new entries every 5 seconds
-onEvent("ADMINBUTTONHOME", "click", function( ) {
-  setInterval(function() {
-    readRecords("HomeInformation", {}, function(records) {
-      if (records.length > lastCount) {
-        showElement("notificationLabel");
-        setText("notificationLabel", "🔔 New entry added!");
+onEvent("ADMINBUTTONHOME", "click", function() {
+  db.collection("HomeInformation").onSnapshot((querySnapshot) => {
+    var newCount = querySnapshot.size;
 
-        // Update the count
-        lastCount = records.length;
+    if (newCount > lastCount) {
+      showElement("notificationLabel");
+      setText("notificationLabel", "🔔 New entry added!");
 
-        // Optional: Hide after a few seconds
-        setTimeout(function() {
-          hideElement("notificationLabel");
-        }, 3000);
-      }
-    });
-  }, 5000);
+      // Optional: Hide after a few seconds
+      setTimeout(function() {
+        hideElement("notificationLabel");
+      }, 3000);
+    }
+
+    lastCount = newCount; // Update count
+  });
 });
-// 5000ms = 5 seconds
 
 
-
-
-
-
-//admin update Landlord Status Vacant and occupied //
 
 onEvent("UpdateStatusAdmin", "click", function() {
   var newStatus = getText("StatusUpdateAdmin").trim();
-  var targetUsername = getText("DeleteLandlordInpu").toLowerCase(); // Input for username
+  var targetUsername = getText("DeleteLandlordInpu").trim().toLowerCase(); // Input for username
 
   if (!newStatus || !targetUsername) {
     setText("Deletelabel", "⚠️ Please enter both a username and a new status.");
     return;
   }
 
-  readRecords("HomeInformation", {}, function(records) {
-    var matchFound = false;
-
-    for (var i = 0; i < records.length; i++) {
-      var user = records[i];
-      if (user.username && user.username.toLowerCase() === targetUsername) {
-        // Update only the Status field while keeping all other existing values
-        updateRecord("HomeInformation", {
-          id: user.id,
-          username: user.username,
-          Email: user.Email,
-          Phone: user.Phone,
-          Location: user.Location,
-          Description: user.Description,
-          Price: user.Price,
-          Image: user.Image,
-          Status: newStatus
-        }, function(success) {
-          setText("Deletelabel", success
-            ? "✅ Status updated for user: " + user.username
-            : "❌ Failed to update status.");
-        });
-
-        matchFound = true;
-        break;
+  db.collection("HomeInformation")
+    .where("username", "==", targetUsername)
+    .get()
+    .then((querySnapshot) => {
+      if (!querySnapshot.empty) {
+        const docRef = querySnapshot.docs[0].ref;
+        return docRef.update({ Status: newStatus });
+      } else {
+        throw "No user found with that username";
       }
-    }
-
-    if (!matchFound) {
-      setText("Deletelabel", "❌ No user found with that username.");
-    }
-  });
+    })
+    .then(() => {
+      setText("Deletelabel", "✅ Status updated for user: " + targetUsername);
+    })
+    .catch((error) => {
+      if (error === "No user found with that username") {
+        setText("Deletelabel", "❌ No user found with that username.");
+      } else {
+        console.error("Error updating status:", error);
+        setText("Deletelabel", "❌ Failed to update status.");
+      }
+    });
 });
-
-
-
-
-
 
 
 
