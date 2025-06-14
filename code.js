@@ -807,16 +807,6 @@ onEvent("UpdateStatusAdmin", "click", function() {
   firebase.initializeApp(firebaseConfig);
   const db = firebase.firestore();
 
-db.collection("HomeInformation").add({
-  name: "John Doe",
-  email: "john@example.com"
-}).then(() => {
-  console.log("✅ Data added successfully!");
-}).catch((error) => {
-  console.error("❌ Error writing to Firestore:", error);
-});
-
-
 
 
 
