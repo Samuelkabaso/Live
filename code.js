@@ -793,5 +793,42 @@ onEvent("UpdateStatusAdmin", "click", function() {
     });
 });
 
+db.collection("Admin").get().then((querySnapshot) => {
+  querySnapshot.forEach((doc) => {
+    console.log("Record:", doc.data());
+  });
+}).catch((error) => {
+  console.error("❌ Error fetching data:", error);
+});
+
+
+
+db.collection("HomeInformation").get().then((querySnapshot) => {
+  querySnapshot.forEach((doc) => {
+    console.log("Record:", doc.data());
+  });
+}).catch((error) => {
+  console.error("❌ Error fetching data:", error);
+});
+
+
+
+db.collection("UserDetails").get().then((querySnapshot) => {
+  querySnapshot.forEach((doc) => {
+    console.log("Record:", doc.data());
+  });
+}).catch((error) => {
+  console.error("❌ Error fetching data:", error);
+});
+
+
+
+db.collection("PendingApproval").get().then((querySnapshot) => {
+  querySnapshot.forEach((doc) => {
+    console.log("Record:", doc.data());
+  });
+}).catch((error) => {
+  console.error("❌ Error fetching data:", error);
+});
 
 
