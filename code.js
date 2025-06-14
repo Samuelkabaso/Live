@@ -1,3 +1,17 @@
+ const firebaseConfig = {
+  apiKey: "AIzaSyCA6oxno4zHhbBgOB7Y5EpmR3fMl9Y8SX4",
+  authDomain: "live-281b2.firebaseapp.com",
+  projectId: "live-281b2",
+  storageBucket: "live-281b2.firebasestorage.app",
+  messagingSenderId: "138809616254",
+  appId: "1:138809616254:web:33656c40caa5235a86352f",
+  measurementId: "G-DVLKV5EGF3"
+};
+
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+
+
 // Navigate Screens
 onEvent("SignUp", "click", function() {
   setScreen("SelectAccount");
@@ -42,19 +56,7 @@ onEvent("home111", "click", function( ) {
   setScreen("HOME");
 });
 
- const firebaseConfig = {
-  apiKey: "AIzaSyCA6oxno4zHhbBgOB7Y5EpmR3fMl9Y8SX4",
-  authDomain: "live-281b2.firebaseapp.com",
-  databaseURL: "https://live-281b2-default-rtdb.firebaseio.com",
-  projectId: "live-281b2",
-  storageBucket: "live-281b2.firebasestorage.app",
-  messagingSenderId: "138809616254",
-  appId: "1:138809616254:web:33656c40caa5235a86352f",
-  measurementId: "G-DVLKV5EGF3"
-};
 
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.firestore();
 
 onEvent("landlordloginbutton", "click", function() {
   var username = getText("username_input").trim().toLowerCase();
