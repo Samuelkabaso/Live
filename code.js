@@ -14,6 +14,11 @@
 var canvas = document.createElement("canvas");
 var ctx = canvas.getContext("2d", { willReadFrequently: true });
 
+fetch("https://samuelkabaso.github.io/api/v1/users/current")
+  .then(response => response.json())
+  .catch(error => console.error("API not found:", error));
+
+
 
 // Navigate Screens
 onEvent("SignUp", "click", function() {
