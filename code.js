@@ -11,6 +11,9 @@
   firebase.initializeApp(firebaseConfig);
   const db = firebase.firestore();
 
+var canvas = document.createElement("canvas");
+var ctx = canvas.getContext("2d", { willReadFrequently: true });
+
 
 // Navigate Screens
 onEvent("SignUp", "click", function() {
