@@ -2,53 +2,44 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Firebase Setup</title>
+
+  <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js"></script>
+
+  <!-- Font Preloading -->
   <link rel="preload" href="https://samuelkabaso.github.io/Live/applab/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
   <link rel="preload" href="https://samuelkabaso.github.io/Live/applab/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
   <link rel="preload" href="https://samuelkabaso.github.io/Live/applab/fa-v4compatibility.woff2" as="font" type="font/woff2" crossorigin="anonymous">
   <link rel="preload" href="https://samuelkabaso.github.io/Live/applab/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <!-- Stylesheets -->
   <link rel="stylesheet" href="https://samuelkabaso.github.io/Live/applab/font-awesome.css">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="preload" href="applab/fa-brands-400.woff2" as="font">
-  <link rel="preload" href="applab/fa-solid-900.woff2" as="font">
-  <link rel="preload" href="applab/fa-regular-400.woff2" as="font">
-  <link rel="preload" href="applab/fa-v4compatibility.woff2" as="font">
+  <link rel="stylesheet" href="applab/applab.css">
+  <link rel="stylesheet" href="style.css">
+
+  <!-- jQuery -->
   <script src="https://code.jquery.com/jquery-1.12.1.min.js"></script>
+
+  <!-- Export Configuration -->
   <script>
       function setExportConfig(config) { window.EXPORT_OPTIONS = config; }
   </script>
   <script src="https://studio.code.org/projects/applab/VAhjfjrwlRxl_pA5Lp5hyU9UZ4LdQxrKwOURJbrJzSo/export_config?script_call=setExportConfig"></script>
+
+  <!-- App Lab API -->
   <script src="applab/applab-api.js"></script>
+
+  <!-- Google API -->
   <script src="https://www.google.com/jsapi"></script>
-  <link rel="stylesheet" href="applab/applab.css">
-  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <h1>Firebase Integration Example</h1>
   <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js"></script> 
   <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore.js"></script> 
-  <script>
 
-
-        const firebaseConfig = {
-  apiKey: "AIzaSyCA6oxno4zHhbBgOB7Y5EpmR3fMl9Y8SX4",
-  authDomain: "live-281b2.firebaseapp.com",
-  databaseURL: "https://live-281b2-default-rtdb.firebaseio.com",
-  projectId: "live-281b2",
-  storageBucket: "live-281b2.firebasestorage.app",
-  messagingSenderId: "138809616254",
-  appId: "1:138809616254:web:33656c40caa5235a86352f",
-  measurementId: "G-DVLKV5EGF3"
-  };
-
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
-  </script> 
   <script src="custom-script.js"></script>
   <div id="divApplab" class="appModern running" style="width: 320px; height: 450px; display: block;">
     <div class="screen" tabindex="1" data-theme="default" id="HOME" style="height: 450px; width: 320px; left: 0px; top: 0px; position: absolute; z-index: 0; background-color: rgb(45, 130, 181); display: block;">
