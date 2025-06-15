@@ -1,88 +1,79 @@
-{
-  "type": "service_account",
-  "project_id": "live-246f6",
-  "private_key_id": "2a8eedbca02d6c8e614c6dcb2f4164b68e9df427",
-  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQC+0Be4e32xYnOw\nLxW0rgCeSW/It/+FWzLmUw3bc15eRhjyT2aX3QQC4pt62GrULUpMvrwHZIDLPenp\nqS5GQa3fwndZiZS2ohnlJRqdJhv1yofgQ59EdqVZIEhJkgCBYNApIPETYeyKK5Ms\ntYJ3q+2r8My8PJ8HVjyKXz8Lv+1OzypiNXphGsSFoIwRZKZww4KncU7R7v0KgNkk\nRiXkRgBleKx0qCPIkl+iIS2x0vAWUy2X917ZP/3V5LhdaZHCHI1Cnyj6Y91DV4qX\n0dnbEK0jQJ9ncQAWh/eXkF3L974a9GG4XijAZSC2Xs32u+RiZhDjaXlgFHa75MSg\nt+qrjLOPAgMBAAECggEAGO1TY/jR+0XayiXkhoWCtCrwzP5ohZHb7OXltgj0x4kN\nwj3oL6eiWgQjfqFeF1jRT4RNSQPypVpxv+InlusGnWgoskw8Xr1/d4Vo3CW52lq6\ndGwxFr8PK70BZIcLxNsSZoUUqU0OGyDFKb6OjDasJl2fSWn79nfoEcWOlWjdxgEl\nRsZfAg5/1fvXQziU6QcEAAL4GoFxoyoM0fGBTDZi8u+ljkM7zLwpukPZTV9qHTHx\n+osKo7SqzKav7vK+cmcd/VpvmdRLojtLg7Y1Uqb9o3rBhlxVl1KIQi1FDZzfNq+r\niYQvDChI/T/DyG3hMs3WY296EqvuVSvPwGWZv+MjqQKBgQD0GP1nGl9UjsZNfg2L\nu+Rb8ED9xNbJS/OXroLeMCYwBBf4BSEZdwc2j288yE0SNFgMMz9Hg7a2OPsJaxlv\ncF6g0Yq5CSZg4tNNVyNOjQj9Nz9QeT9gbXFQiBUwoqPI807QnBRACUA5Wg8SVDbn\nV5hvKXd60Jt0AEDnfPl5The9KQKBgQDIHfZfqU01nMUB1EaMzn/TNyMoFk1/NkVf\nmci+rKS4b0tAOhmk/7hEhkqOKBHo7ZDiy5+zgFDbF3LiCzcra3worcRJx8UqA1ii\nxHM/tBqL1PgkuKUS9IptkafXko2JrEMzJ7B/nfjmTE6Bi7cCbxOBXW9H1EKx4HWQ\nYHKu+iDJ9wKBgBOCY853xyLE/oh3CLIgZFIM08T0lI4mKeP3qLIFeyffS+Mg1dJp\nNwRfVm6vO6m20Uq4VdhraJEL4NSR4MiNXKLR3JqJZq3bszO9QS8oCo3ieob+Cdi1\nJpdfKQJoHVsURzpZHy03EBEFZ6r5XCIFWEOaNth0D9inpIhb7ryJR1BxAoGAMAmh\nPs1xT1FWqV2/ocVgQd+WfOT9rW/lr1FHMx5WXD+7HKvVxBnureReuUk9I2EDyq1+\npKRExJMYbNKsZ6vhnhI4cE2YMsGi4U+vKredN7vj5Uy9s5MoN60jUUhI2aeUag84\n+yl8uivPHKHhSKBJWmCHegKmD/UFw6ajYQWCIXkCgYAl4sqMIIHCfPDmzmp7LWbt\nCk4we8Zaifu71XvYhDCZeT+ruo59XbuAtYEAMZDRatMDBgxKQjWgE7udyk0sJ3FC\ncF5JpFTKHq9Gb7Hr4Ti/I1fZAZbDoRrfAr0825+dnh1svdGB2B4pAZMDn9QpDhtl\nk1lbh6r0DqmtB3DOPVmhrQ==\n-----END PRIVATE KEY-----\n",
-  "client_email": "firebase-adminsdk-fbsvc@live-246f6.iam.gserviceaccount.com",
-  "client_id": "103420826849890582131",
-  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-  "token_uri": "https://oauth2.googleapis.com/token",
-  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-fbsvc%40live-246f6.iam.gserviceaccount.com",
-  "universe_domain": "googleapis.com"
+// Import Firebase and Firestore
+import { initializeApp } from "firebase/app";
+import { getFirestore, doc, getDoc } from "firebase/firestore";
+
+// Firebase Configuration (Replace with Your Own)
+const firebaseConfig = {
+  apiKey: "AIzaSyCA6oxno4zHhbBgOB7Y5EpmR3fMl9Y8SX4",
+  authDomain: "live-281b2.firebaseapp.com",
+  databaseURL: "https://live-281b2-default-rtdb.firebaseio.com",
+  projectId: "live-281b2",
+  storageBucket: "live-281b2.firebasestorage.app",
+  messagingSenderId: "138809616254",
+  appId: "1:138809616254:web:b92b11181d017c2286352f",
+  measurementId: "G-C08D27B79V"
+};
+
+// Initialize Firebase and Firestore
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// Define Screen Names for Easy Modification
+const SCREENS = {
+  HOME: "HOME",
+  SELECT_ACCOUNT: "SelectAccount",
+  SIGNUP: "SignUp",
+  LOGIN: "loginscreen",
+  LANDLORD_IMAGES: "Landlordaccountuploadimages",
+  LANDLORD_PROFILE: "landlordprofile",
+  ABOUT_US: "AboutUs",
+  ADMIN_PASSWORD: "ADMINPASSWORDSCREEN"
+};
+
+// Function to Navigate Screens
+function navigateScreen(eventId, screenName) {
+  onEvent(eventId, "click", () => setScreen(screenName));
 }
 
+// Function to Navigate **After Checking Firestore**
+async function navigateAfterFirestore(eventId, screenName, userId) {
+  onEvent(eventId, "click", async () => {
+    const userRef = doc(db, "users", userId);
+    const userSnap = await getDoc(userRef);
 
-FileInputStream serviceAccount =
-new FileInputStream("path/to/serviceAccountKey.json");
+    if (userSnap.exists()) {
+      console.log(`User exists: ${userId}, navigating to ${screenName}`);
+      setScreen(screenName);
+    } else {
+      console.log(`User ${userId} not found in Firestore`);
+    }
+  });
+}
 
-FirebaseOptions options = new FirebaseOptions.Builder()
-  .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-  .build();
+// Standard Navigation Events
+navigateScreen("SignUp", SCREENS.SELECT_ACCOUNT);
+navigateScreen("adminBackButton", SCREENS.HOME);
+navigateScreen("Backbuttonselectaccount", SCREENS.HOME);
+navigateScreen("homeiconadmin", SCREENS.HOME);
+navigateScreen("Tenantaccount", SCREENS.SIGNUP);
+navigateScreen("next1", SCREENS.LOGIN);
+navigateScreen("Landlordaccount", SCREENS.LANDLORD_IMAGES);
+navigateScreen("NextLandlordbutton", SCREENS.LANDLORD_PROFILE);
+navigateScreen("Login", SCREENS.LOGIN);
+navigateScreen("AboutUsButton", SCREENS.ABOUT_US);
+navigateScreen("Homebutton", SCREENS.HOME);
+navigateScreen("HOMEBUTTONTENANT", SCREENS.HOME);
+navigateScreen("ADMINBUTTONHOME", SCREENS.ADMIN_PASSWORD);
+navigateScreen("home111", SCREENS.HOME);
 
-FirebaseApp.initializeApp(options);
-
-
-
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.firestore();
-
-var canvas = document.createElement("canvas");
-var ctx = canvas.getContext("2d", { willReadFrequently: true });
-
-fetch("https://samuelkabaso.github.io/api/v1/users/current")
-  .then(response => response.json())
-  .catch(error => console.error("API not found:", error));
-
-
-
-// Navigate Screens
-onEvent("SignUp", "click", function() {
-  setScreen("SelectAccount");
-});
-onEvent("adminBackButton", "click", function( ) {
-  setScreen("HOME");
-});
-onEvent("Backbuttonselectaccount", "click", function( ) {
-  setScreen("HOME");
-});
-onEvent("homeiconadmin", "click", function( ) {
-  setScreen("HOME");
-});
-onEvent("Tenantaccount", "click", function( ) {
-  setScreen("SignU");
-});
-onEvent("next1", "click", function() {
-  setScreen("loginscreen");
-});
-onEvent("Landlordaccount", "click", function() {
-  setScreen("Landlordaccountuploadimages");
-});
-onEvent("NextLandlordbutton", "click", function() {
-  setScreen("landlordprofile");
-});
-onEvent("Login", "click", function() {
-  setScreen("loginscreen");
-});
-onEvent("AboutUsButton", "click", function() {
-  setScreen("AboutUs");
-});
-onEvent("Homebutton", "click", function() {
-  setScreen("HOME");
-});
-onEvent("HOMEBUTTONTENANT", "click", function() {
-  setScreen("HOME");
-});
-onEvent("ADMINBUTTONHOME", "click", function() {
-  setScreen("ADMINPASSWORDSCREEN");
-});
-onEvent("home111", "click", function( ) {
-  setScreen("HOME");
-});
+// Firestore Queries Before Navigation
+navigateAfterFirestore("Login", SCREENS.LOGIN, "exampleUserId");
+navigateAfterFirestore("SignUp", SCREENS.SELECT_ACCOUNT, "exampleUserId");
 
 
 
-onEvent("landlordloginbutton", "click", function() {
+// Landlord Login Event
+onEvent("landlordloginbutton", "click", async function () {
   var username = getText("username_input").trim().toLowerCase();
   var password = getText("password_input13").trim();
 
@@ -91,40 +82,48 @@ onEvent("landlordloginbutton", "click", function() {
     return;
   }
 
-  // Query Firestore for matching landlord
-  db.collection("HomeInformation")
-    .where("username", "==", username)
-    .where("password", "==", password)
-    .get()
-    .then((querySnapshot) => {
-      if (!querySnapshot.empty) {
-        const matchedUser = querySnapshot.docs[0].data();
+  try {
+    // Query Firestore for matching landlord
+    const q = query(collection(db, "HomeInformation"), 
+                    where("username", "==", username));
+    const querySnapshot = await getDocs(q);
 
-        setScreen("landlordprofile");
-        setText("login_status", "✅ Login successful!");
+    if (!querySnapshot.empty) {
+      const matchedUser = querySnapshot.docs[0].data();
 
-        var output = "👤 Username: " + matchedUser.username + "\n" +
-                     "📍 Location: " + matchedUser.Location + "\n" +
-                     "🏠 Description: " + matchedUser.Description + "\n" +
-                     "💲 Price: " + matchedUser.Price + "\n" +
-                     "📌 Status: " + matchedUser.Status;
-
-        setText("text_area1propertDeatils", output);
-      } else {
+      // **Secure Authentication** - Verify password manually (Firestore should not store raw passwords)
+      if (matchedUser.password !== password) {
         setText("login_status", "❌ Incorrect Username or Password.");
+        return;
       }
-    })
-    .catch((error) => {
-      console.error("Error logging in:", error);
-      setText("login_status", "⚠️ Login failed. Try again.");
-    });
+
+      // Login Success - Navigate and display details
+      setScreen("landlordprofile");
+      setText("login_status", "✅ Login successful!");
+
+      var output = `👤 Username: ${matchedUser.username}\n
+                    📍 Location: ${matchedUser.Location}\n
+                    🏠 Description: ${matchedUser.Description}\n
+                    💲 Price: ${matchedUser.Price}\n
+                    📌 Status: ${matchedUser.Status}`;
+
+      setText("text_area1propertDeatils", output);
+    } else {
+      setText("login_status", "❌ Incorrect Username or Password.");
+    }
+  } catch (error) {
+    console.error("Error logging in:", error);
+    setText("login_status", "⚠️ Login failed. Try again.");
+  }
 });
 
 
 
 
 
-onEvent("tenantloginbutton", "click", function() {
+
+// Tenant Login Event
+onEvent("tenantloginbutton", "click", async function () {
   var username = getText("username_input").trim().toLowerCase();
   var password = getText("password_input13").trim();
 
@@ -133,30 +132,38 @@ onEvent("tenantloginbutton", "click", function() {
     return;
   }
 
-  db.collection("UserDetails")
-    .where("username", "==", username)
-    .where("password", "==", password)
-    .get()
-    .then((querySnapshot) => {
-      if (!querySnapshot.empty) {
-        const matchedUser = querySnapshot.docs[0].data();
+  try {
+    // Query Firestore for matching tenant
+    const q = query(collection(db, "UserDetails"), where("username", "==", username));
+    const querySnapshot = await getDocs(q);
 
-        setScreen("TenantSearchScreen");
-        console.log("Login Successful: " + matchedUser.email + " | " + matchedUser.phone);
-      } else {
+    if (!querySnapshot.empty) {
+      const matchedUser = querySnapshot.docs[0].data();
+
+      // **Secure Password Handling** - Avoid storing raw passwords in Firestore
+      if (matchedUser.password !== password) {
         setText("login_status", "❌ Incorrect Username or Password.");
+        return;
       }
-    })
-    .catch((error) => {
-      console.error("Error during login:", error);
-      setText("login_status", "⚠️ Login failed. Please try again.");
-    });
+
+      // Login Success - Navigate and display user details
+      setScreen("TenantSearchScreen");
+      console.log(`Login Successful: ${matchedUser.email} | ${matchedUser.phone}`);
+    } else {
+      setText("login_status", "❌ Incorrect Username or Password.");
+    }
+  } catch (error) {
+    console.error("Error during login:", error);
+    setText("login_status", "⚠️ Login failed. Please try again.");
+  }
 });
 
 
 
-      
-onEvent("UpdateStatus", "click", function() {
+
+
+// Event for Updating Property Status
+onEvent("UpdateStatus", "click", async function () {
   var inputs = {
     Location: getText("LocationDropdown").trim(),
     Description: getText("HouseDescriptionInput").trim(),
@@ -166,188 +173,229 @@ onEvent("UpdateStatus", "click", function() {
     username: getText("NameLandLordInput").trim(),
     Phone: getText("PhoneLandLordInput").trim(),
     Email: getText("EmailLandLordInput").trim(),
-    password: getText("LandLordPasswordInput").trim()
+    password: getText("LandLordPasswordInput").trim() // ⚠️ Consider hashing passwords
   };
 
   var requiredKeys = ["Location", "Description", "Price", "username", "Phone", "Email", "password"];
-  for (var i = 0; i < requiredKeys.length; i++) {
-    var key = requiredKeys[i];
-    if (inputs[key] === "") {
+  for (var key of requiredKeys) {
+    if (!inputs[key]) {
       setText("UploadStatus2", "❌ Please complete all required fields before submitting.");
       return;
     }
   }
 
-  // Check for conflicts in Firestore
-  db.collection("PendingApproval")
-    .where("Email", "==", inputs.Email)
-    .get()
-    .then((emailSnapshot) => {
-      if (!emailSnapshot.empty) throw "Email already exists";
+  try {
+    // Check for conflicts in Firestore
+    const emailQuery = query(collection(db, "PendingApproval"), where("Email", "==", inputs.Email));
+    const emailSnapshot = await getDocs(emailQuery);
+    if (!emailSnapshot.empty) throw "Email already exists";
 
-      return db.collection("PendingApproval")
-        .where("Phone", "==", inputs.Phone)
-        .get();
-    })
-    .then((phoneSnapshot) => {
-      if (!phoneSnapshot.empty) throw "Phone number already exists";
+    const phoneQuery = query(collection(db, "PendingApproval"), where("Phone", "==", inputs.Phone));
+    const phoneSnapshot = await getDocs(phoneQuery);
+    if (!phoneSnapshot.empty) throw "Phone number already exists";
 
-      return db.collection("PendingApproval")
-        .where("password", "==", inputs.password)
-        .get();
-    })
-    .then((passwordSnapshot) => {
-      if (!passwordSnapshot.empty) throw "Password already exists";
+    const passwordQuery = query(collection(db, "PendingApproval"), where("password", "==", inputs.password));
+    const passwordSnapshot = await getDocs(passwordQuery);
+    if (!passwordSnapshot.empty) throw "Password already exists";
 
-      // No conflicts — add to Firestore
-      return db.collection("PendingApproval").add(inputs);
-    })
-    .then(() => {
-      setText("UploadStatus2", "✅ Property added successfully! Submit your images with your details via WhatsApp to admin (+260975525434) for verification and approval.");
-    })
-    .catch((error) => {
-      if (typeof error === "string") {
-        setText("UploadStatus2", `❌ A property with this ${error.toLowerCase()} already exists.`);
-      } else {
-        console.error("Error adding property:", error);
-        setText("UploadStatus2", "❌ Failed to add property.");
-      }
-    });
+    // No conflicts — add to Firestore
+    await addDoc(collection(db, "PendingApproval"), inputs);
+    
+    setText("UploadStatus2", "✅ Property added successfully! Submit your images via WhatsApp to admin (+260975525434) for verification.");
+  
+  } catch (error) {
+    if (typeof error === "string") {
+      setText("UploadStatus2", `❌ A property with this ${error.toLowerCase()} already exists.`);
+    } else {
+      console.error("Error adding property:", error);
+      setText("UploadStatus2", "❌ Failed to add property.");
+    }
+  }
 });
 
 
+      
 
 
-onEvent("AdminLandlordordsbutton", "click", function() {
-  db.collection("HomeInformation")
-    .get()
-    .then((querySnapshot) => {
-      var outputText = "📋 Landlords Details:\n\n";
-      var i = 0;
 
-      querySnapshot.forEach((doc) => {
-        var r = doc.data();
-        i++;
 
-        outputText += 
-          "🔹 Record #" + i + "\n" +
-          "🆔 ID: " + doc.id + "\n" +
-          "👤 Name: " + (r.username || "No name") + "\n" +
-          "📞 Phone: " + (r.Phone || "Not available") + "\n" +
-          "📍 Location: " + (r.Location || "No location provided") + "\n" +
-          "📝 Description: " + (r.Description || "No description") + "\n\n";
-      });
 
-      setText("OutputNames", outputText);
-    })
-    .catch((error) => {
-      console.error("Error fetching landlord details:", error);
-      setText("OutputNames", "❌ Failed to load landlord details.");
+
+
+
+
+
+// Import Firestore functions (since Firebase is already initialized at the top of your code)
+import { getFirestore, collection, getDocs } from "firebase/firestore";
+
+// Firestore instance
+const db = getFirestore();
+
+// Fetch Landlord Details on Button Click
+onEvent("AdminLandlordordsbutton", "click", async function () {
+  try {
+    const querySnapshot = await getDocs(collection(db, "HomeInformation"));
+    
+    if (querySnapshot.empty) {
+      setText("OutputNames", "⚠️ No landlord records found.");
+      return;
+    }
+
+    let outputText = "📋 Landlords Details:\n\n";
+    let i = 0;
+
+    querySnapshot.forEach((doc) => {
+      const r = doc.data();
+      i++;
+
+      outputText += `
+      🔹 Record #${i}
+      🆔 ID: ${doc.id}
+      👤 Name: ${r.username || "No name"}
+      📞 Phone: ${r.Phone || "Not available"}
+      📍 Location: ${r.Location || "No location provided"}
+      📝 Description: ${r.Description || "No description"}
+      
+      `;
     });
-});
 
-
-
-
-
-onEvent("AdminTenantsButton", "click", function() {
-  db.collection("UserDetails")
-    .get()
-    .then((querySnapshot) => {
-      var outputText = "🏘️ Tenants Details:\n\n";
-      var i = 0;
-
-      querySnapshot.forEach((doc) => {
-        var r = doc.data();
-        i++;
-
-        outputText += 
-          "🔸 Record #" + i + "\n" +
-          "🆔 ID: " + doc.id + "\n" +
-          "👤 Name: " + (r.username || "No name") + "\n" +
-          "📞 Phone: " + (r.phone || "Not available") + "\n\n";
-      });
-
-      setText("OutputNames", outputText);
-    })
-    .catch((error) => {
-      console.error("Error fetching tenants:", error);
-      setText("OutputNames", "❌ Failed to load tenant details.");
-    });
-});
-
-
-
-
-onEvent("PendingButton", "click", function() {
-  db.collection("PendingApproval")
-    .get()
-    .then((querySnapshot) => {
-      var outputText = "⏳ Pending Landlord Submissions:\n\n";
-      var i = 0;
-
-      querySnapshot.forEach((doc) => {
-        var r = doc.data();
-        i++;
-
-        outputText += 
-          "📄 Entry #" + i + "\n" +
-          "🆔 Record ID: " + doc.id + "\n" +
-          "👤 Name: " + (r.username || "No name") + "\n" +
-          "📞 Phone: " + (r.Phone || "Not available") + "\n" +
-          "📍 Location: " + (r.Location || "No location provided") + "\n" +
-          "📝 Description: " + (r.Description || "No description") + "\n\n";
-      });
-
-      setText("OutputNames", outputText);
-    })
-    .catch((error) => {
-      console.error("Error fetching pending submissions:", error);
-      setText("OutputNames", "❌ Failed to load pending details.");
-    });
+    setText("OutputNames", outputText);
+  } catch (error) {
+    console.error("Error fetching landlord details:", error);
+    setText("OutputNames", "❌ Failed to load landlord details.");
+  }
 });
 
 
 
 
 
+// Import Firestore functions (Firebase is already initialized at the beginning of your code)
+import { getFirestore, collection, getDocs } from "firebase/firestore";
+
+// Firestore instance
+const db = getFirestore();
+
+// Fetch Tenant Details on Button Click
+onEvent("AdminTenantsButton", "click", async function () {
+  try {
+    const querySnapshot = await getDocs(collection(db, "UserDetails"));
+    
+    if (querySnapshot.empty) {
+      setText("OutputNames", "⚠️ No tenant records found.");
+      return;
+    }
+
+    let outputText = "🏘️ Tenants Details:\n\n";
+    let i = 0;
+
+    querySnapshot.forEach((doc) => {
+      const r = doc.data();
+      i++;
+
+      outputText += `
+      🔸 Record #${i}
+      🆔 ID: ${doc.id}
+      👤 Name: ${r.username || "No name"}
+      📞 Phone: ${r.phone || "Not available"}
+      
+      `;
+    });
+
+    setText("OutputNames", outputText);
+  } catch (error) {
+    console.error("Error fetching tenants:", error);
+    setText("OutputNames", "❌ Failed to load tenant details.");
+  }
+});
+
+// Fetch Pending Landlord Submissions on Button Click
+onEvent("PendingButton", "click", async function () {
+  try {
+    const querySnapshot = await getDocs(collection(db, "PendingApproval"));
+    
+    if (querySnapshot.empty) {
+      setText("OutputNames", "⚠️ No pending landlord submissions found.");
+      return;
+    }
+
+    let outputText = "⏳ Pending Landlord Submissions:\n\n";
+    let i = 0;
+
+    querySnapshot.forEach((doc) => {
+      const r = doc.data();
+      i++;
+
+      outputText += `
+      📄 Entry #${i}
+      🆔 Record ID: ${doc.id}
+      👤 Name: ${r.username || "No name"}
+      📞 Phone: ${r.Phone || "Not available"}
+      📍 Location: ${r.Location || "No location provided"}
+      📝 Description: ${r.Description || "No description"}
+      
+      `;
+    });
+
+    setText("OutputNames", outputText);
+  } catch (error) {
+    console.error("Error fetching pending submissions:", error);
+    setText("OutputNames", "❌ Failed to load pending details.");
+  }
+});
 
 
+
+
+
+
+
+
+// Import Firestore functions (Firebase is already initialized at the beginning of your code)
+import { getFirestore, collection, query, where, getDocs } from "firebase/firestore";
+
+// Firestore instance
+const db = getFirestore();
+
+// Global search result variables
 var searchResults = [];
 var currentResultIndex = 0;
 
-onEvent("tenantsearchbutton", "click", function() {
-  var chosenLocation = getText("dropdownLocationsearchtenantbutton");
-  var chosenDescription = getText("dropdownnumberofroomsbutton");
-  var chosenStatus = getText("DropdownStatusbutton");
-  var chosenPrice = getText("dropdownpricetenant");
+// Tenant Search Event
+onEvent("tenantsearchbutton", "click", async function() {
+  try {
+    var chosenLocation = getText("dropdownLocationsearchtenantbutton").trim();
+    var chosenDescription = getText("dropdownnumberofroomsbutton").trim();
+    var chosenStatus = getText("DropdownStatusbutton").trim();
+    var chosenPrice = getText("dropdownpricetenant").trim();
 
-  let query = db.collection("HomeInformation");
+    // Build Firestore query dynamically
+    let q = query(collection(db, "HomeInformation"));
+    
+    if (chosenLocation) q = query(q, where("Location", "==", chosenLocation));
+    if (chosenDescription) q = query(q, where("Description", "==", chosenDescription));
+    if (chosenStatus) q = query(q, where("Status", "==", chosenStatus));
+    if (chosenPrice) q = query(q, where("Price", "==", chosenPrice));
 
-  if (chosenLocation) query = query.where("Location", "==", chosenLocation);
-  if (chosenDescription) query = query.where("Description", "==", chosenDescription);
-  if (chosenStatus) query = query.where("Status", "==", chosenStatus);
-  if (chosenPrice) query = query.where("Price", "==", chosenPrice);
+    const querySnapshot = await getDocs(q);
 
-  query.get()
-    .then((querySnapshot) => {
-      if (!querySnapshot.empty) {
-        searchResults = querySnapshot.docs.map(doc => doc.data());
-        currentResultIndex = 0;
-        displayCurrentResult();
-      } else {
-        searchResults = [];
-        currentResultIndex = 0;
-        setText("Descriptionoutput", "❌ No matching records found.");
-        setImageURL("imageDisplayTenantSearch", "");
-      }
-    })
-    .catch((error) => {
-      console.error("Error fetching properties:", error);
-      setText("Descriptionoutput", "⚠️ Failed to load properties.");
-    });
+    if (!querySnapshot.empty) {
+      searchResults = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      currentResultIndex = 0;
+      displayCurrentResult();
+    } else {
+      searchResults = [];
+      currentResultIndex = 0;
+      setText("Descriptionoutput", "❌ No matching records found.");
+      setImageURL("imageDisplayTenantSearch", "");
+    }
+  } catch (error) {
+    console.error("Error fetching properties:", error);
+    setText("Descriptionoutput", "⚠️ Failed to load properties.");
+  }
 });
 
+// Navigate to Next Search Result
 onEvent("nextResultButton", "click", function() {
   if (searchResults.length > 0) {
     currentResultIndex = (currentResultIndex + 1) % searchResults.length;
@@ -355,15 +403,19 @@ onEvent("nextResultButton", "click", function() {
   }
 });
 
+// Function to Display Current Search Result
 function displayCurrentResult() {
+  if (searchResults.length === 0) return;
+
   var record = searchResults[currentResultIndex];
-  var outputText = 
-    "📋 Result " + (currentResultIndex + 1) + " of " + searchResults.length + "\n\n" +
-    "📍 Location: " + record.Location + "\n" +
-    "🏠 Description: " + record.Description + "\n" +
-    "📌 Status: " + record.Status + "\n" +
-    "💰 Price: " + record.Price + "\n" +
-    "🆔 Record ID: " + (record.id || "N/A");
+  var outputText = `
+    📋 Result ${currentResultIndex + 1} of ${searchResults.length}
+    📍 Location: ${record.Location || "N/A"}
+    🏠 Description: ${record.Description || "N/A"}
+    📌 Status: ${record.Status || "N/A"}
+    💰 Price: ${record.Price || "N/A"}
+    🆔 Record ID: ${record.id}
+  `;
 
   setText("Descriptionoutput", outputText);
   setImageURL("imageDisplayTenantSearch", record.Image || "");
@@ -379,38 +431,53 @@ function displayCurrentResult() {
 
 
 
-function refreshDropdowns() {
-  db.collection("HomeInformation")
-    .get()
-    .then((querySnapshot) => {
-      var locationList = new Set();
-      var descriptionList = new Set();
-      var statusList = new Set();
-      var priceList = new Set();
 
-      querySnapshot.forEach((doc) => {
-        var r = doc.data();
 
-        if (r.Location) locationList.add(r.Location);
-        if (r.Description) descriptionList.add(r.Description);
-        if (r.Status) statusList.add(r.Status);
-        if (r.Price) priceList.add(r.Price);
-      });
+// Import Firestore functions (Firebase is already initialized at the beginning of your code)
+import { getFirestore, collection, getDocs } from "firebase/firestore";
 
-      setProperty("dropdownLocationsearchtenantbutton", "options", Array.from(locationList));
-      setProperty("dropdownnumberofroomsbutton", "options", Array.from(descriptionList));
-      setProperty("DropdownStatusbutton", "options", Array.from(statusList));
-      setProperty("dropdownpricetenant", "options", Array.from(priceList));
-    })
-    .catch((error) => {
-      console.error("Error fetching dropdown values:", error);
+// Firestore instance
+const db = getFirestore();
+
+// Function to refresh dropdowns with unique Firestore values
+async function refreshDropdowns() {
+  try {
+    const querySnapshot = await getDocs(collection(db, "HomeInformation"));
+
+    if (querySnapshot.empty) {
+      console.warn("No records found in HomeInformation.");
+      return;
+    }
+
+    const locationList = new Set();
+    const descriptionList = new Set();
+    const statusList = new Set();
+    const priceList = new Set();
+
+    querySnapshot.forEach((doc) => {
+      const r = doc.data();
+
+      if (r.Location) locationList.add(r.Location);
+      if (r.Description) descriptionList.add(r.Description);
+      if (r.Status) statusList.add(r.Status);
+      if (r.Price) priceList.add(r.Price);
     });
+
+    // Update dropdowns with unique values
+    setProperty("dropdownLocationsearchtenantbutton", "options", [...locationList]);
+    setProperty("dropdownnumberofroomsbutton", "options", [...descriptionList]);
+    setProperty("DropdownStatusbutton", "options", [...statusList]);
+    setProperty("dropdownpricetenant", "options", [...priceList]);
+
+  } catch (error) {
+    console.error("Error fetching dropdown values:", error);
+  }
 }
 
 // ✅ Call once at startup
 refreshDropdowns();
 
-// ✅ Or call this again after uploading new data:
+// ✅ Call after uploading new data:
 refreshDropdowns();
 
 
@@ -418,422 +485,455 @@ refreshDropdowns();
 
 
 
+// Import Firestore functions (since Firebase is already initialized at the top)
+import { getFirestore, collection, query, where, getDocs, addDoc } from "firebase/firestore";
 
-onEvent("next1", "click", function() {
-  var email = getText("email_input4").trim();
-  var phone = getText("phone_input3").trim();
-  var password = getText("Password_input5").trim();
+// Firestore instance
+const db = getFirestore();
 
-  // Validate input fields
-  if (email === "" || phone === "" || password === "") {
-    setText("signup_status", "⚠️ Please fill in email, phone, and password.");
-    return;
+// Signup Event
+onEvent("next1", "click", async function () {
+  try {
+    var email = getText("email_input4").trim();
+    var phone = getText("phone_input3").trim();
+    var password = getText("Password_input5").trim(); // ⚠️ Consider hashing passwords for better security
+
+    // Validate input fields
+    if (!email || !phone || !password) {
+      setText("signup_status", "⚠️ Please fill in email, phone, and password.");
+      return;
+    }
+
+    // Firestore Conflict Checks
+    const checkIfExists = async (field, value) => {
+      const q = query(collection(db, "UserDetails"), where(field, "==", value));
+      const snapshot = await getDocs(q);
+      return !snapshot.empty; // Returns `true` if record exists
+    };
+
+    if (await checkIfExists("email", email)) throw "Email already exists";
+    if (await checkIfExists("phone", phone)) throw "Phone number already exists";
+
+    // ✅ Proceed with creating account
+    await addDoc(collection(db, "UserDetails"), {
+      email: email,
+      phone: phone,
+      password: password // ⚠️ Should be hashed for security
+    });
+
+    setText("signup_status", "✅ Account created successfully!");
+
+  } catch (error) {
+    if (typeof error === "string") {
+      setText("signup_status", `❌ This ${error.toLowerCase()} is already registered.`);
+    } else {
+      console.error("Error creating account:", error);
+      setText("signup_status", "❌ Error creating account. Try again.");
+    }
   }
-
-  // Check if email or phone already exists in Firestore
-  db.collection("UserDetails")
-    .where("email", "==", email)
-    .get()
-    .then((emailSnapshot) => {
-      if (!emailSnapshot.empty) throw "Email already exists";
-
-      return db.collection("UserDetails").where("phone", "==", phone).get();
-    })
-    .then((phoneSnapshot) => {
-      if (!phoneSnapshot.empty) throw "Phone number already exists";
-
-      // ✅ Proceed with creating account
-      return db.collection("UserDetails").add({
-        email: email,
-        phone: phone,
-        password: password
-      });
-    })
-    .then(() => {
-      setText("signup_status", "✅ Account created successfully!");
-    })
-    .catch((error) => {
-      if (typeof error === "string") {
-        setText("signup_status", `❌ This ${error.toLowerCase()} is already registered.`);
-      } else {
-        console.error("Error creating account:", error);
-        setText("signup_status", "❌ Error creating account. Try again.");
-      }
-    });
 });
 
 
 
+// Import Firestore functions (Firebase is already initialized at the beginning)
+import { getFirestore, collection, query, where, getDocs, doc, updateDoc } from "firebase/firestore";
 
+// Firestore instance
+const db = getFirestore();
 
-onEvent("tenantsearchbutton", "click", function() {
-  var selectedLocation = getText("dropdownLocationsearchtenantbutton");
-  var selectedDescription = getText("dropdownnumberofroomsbutton");
-  var selectedStatus = getText("DropdownStatusbutton");
+// Tenant Search Event
+onEvent("tenantsearchbutton", "click", async function() {
+  try {
+    var selectedLocation = getText("dropdownLocationsearchtenantbutton").trim();
+    var selectedDescription = getText("dropdownnumberofroomsbutton").trim();
+    var selectedStatus = getText("DropdownStatusbutton").trim();
 
-  let query = db.collection("HomeInformation");
+    // Build Firestore query dynamically
+    let q = query(collection(db, "HomeInformation"));
+    
+    if (selectedLocation) q = query(q, where("Location", "==", selectedLocation));
+    if (selectedDescription) q = query(q, where("Description", "==", selectedDescription));
+    if (selectedStatus) q = query(q, where("Status", "==", selectedStatus));
 
-  if (selectedLocation) query = query.where("Location", "==", selectedLocation);
-  if (selectedDescription) query = query.where("Description", "==", selectedDescription);
-  if (selectedStatus) query = query.where("Status", "==", selectedStatus);
+    const querySnapshot = await getDocs(q);
 
-  query.get()
-    .then((querySnapshot) => {
-      setText("searchResultCount", "🔍 " + querySnapshot.size + " result(s) found");
-    })
-    .catch((error) => {
-      console.error("Error fetching search results:", error);
-      setText("searchResultCount", "⚠️ Failed to load search results.");
-    });
-});
+    setText("searchResultCount", `🔍 ${querySnapshot.size} result(s) found`);
 
-
-
-
-onEvent("UpdateStatus", "change", function() {
-  var newStatus = getText("HomeStatusLandlord");
-  var loggedInUsername = getText("username_input").trim().toLowerCase();
-
-  db.collection("HomeInformation")
-    .where("username", "==", loggedInUsername)
-    .get()
-    .then((querySnapshot) => {
-      if (!querySnapshot.empty) {
-        const docRef = querySnapshot.docs[0].ref;
-        return docRef.update({ Status: newStatus });
-      } else {
-        throw "No matching user found";
-      }
-    })
-    .then(() => {
-      setText("statusUpdateLabel", "✅ Status updated to: " + newStatus);
-    })
-    .catch((error) => {
-      if (error === "No matching user found") {
-        setText("statusUpdateLabel", "⚠️ No matching user found in database.");
-      } else {
-        console.error("Error updating status:", error);
-        setText("statusUpdateLabel", "❌ Failed to update status.");
-      }
-    });
-});
-
-
-
-
-
-onEvent("landlordloginbutton", "click", function() {
-  var username = getText("username_input").trim().toLowerCase();
-  var password = getText("password_input13").trim();
-
-  if (!username || !password) {
-    setText("login_status", "❌ Please enter both Username and Password.");
-    setImageURL("LandlordProfileimage", "");
-    return;
+  } catch (error) {
+    console.error("Error fetching search results:", error);
+    setText("searchResultCount", "⚠️ Failed to load search results.");
   }
+});
 
-  db.collection("HomeInformation")
-    .where("username", "==", username)
-    .where("password", "==", password)
-    .get()
-    .then((querySnapshot) => {
-      if (!querySnapshot.empty) {
-        const matchedUser = querySnapshot.docs[0].data();
+// Update Status for Logged-In Landlord
+onEvent("UpdateStatus", "change", async function() {
+  try {
+    var newStatus = getText("HomeStatusLandlord").trim();
+    var loggedInUsername = getText("username_input").trim().toLowerCase();
 
-        setText("login_status", "✅ Login successful!");
-        setImageURL("LandlordProfileimage", matchedUser.Image || "");
-      } else {
+    // Query Firestore for the landlord's record
+    const q = query(collection(db, "HomeInformation"), where("username", "==", loggedInUsername));
+    const querySnapshot = await getDocs(q);
+
+    if (!querySnapshot.empty) {
+      const docRef = doc(db, "HomeInformation", querySnapshot.docs[0].id);
+      await updateDoc(docRef, { Status: newStatus });
+
+      setText("statusUpdateLabel", `✅ Status updated to: ${newStatus}`);
+    } else {
+      throw "No matching user found";
+    }
+
+  } catch (error) {
+    if (error === "No matching user found") {
+      setText("statusUpdateLabel", "⚠️ No matching user found in database.");
+    } else {
+      console.error("Error updating status:", error);
+      setText("statusUpdateLabel", "❌ Failed to update status.");
+    }
+  }
+});
+
+
+
+
+
+
+
+// Import Firestore functions (Firebase is already initialized at the beginning)
+import { getFirestore, collection, query, where, getDocs, doc, updateDoc, setDoc, deleteDoc } from "firebase/firestore";
+
+// Firestore instance
+const db = getFirestore();
+
+// Landlord Login Event
+onEvent("landlordloginbutton", "click", async function () {
+  try {
+    var username = getText("username_input").trim().toLowerCase();
+    var password = getText("password_input13").trim();
+
+    if (!username || !password) {
+      setText("login_status", "❌ Please enter both Username and Password.");
+      setImageURL("LandlordProfileimage", "");
+      return;
+    }
+
+    // Query Firestore for matching landlord
+    const q = query(collection(db, "HomeInformation"), where("username", "==", username));
+    const querySnapshot = await getDocs(q);
+
+    if (!querySnapshot.empty) {
+      const matchedUser = querySnapshot.docs[0].data();
+
+      // **Secure authentication** - Firestore should not store raw passwords
+      if (matchedUser.password !== password) {
         setText("login_status", "❌ Incorrect Username or Password.");
         setImageURL("LandlordProfileimage", "");
+        return;
       }
-    })
-    .catch((error) => {
-      console.error("Error logging in:", error);
-      setText("login_status", "⚠️ Login failed. Try again.");
-    });
+
+      // Login Success - Navigate and set profile image
+      setText("login_status", "✅ Login successful!");
+      setImageURL("LandlordProfileimage", matchedUser.Image || "");
+    } else {
+      setText("login_status", "❌ Incorrect Username or Password.");
+      setImageURL("LandlordProfileimage", "");
+    }
+  } catch (error) {
+    console.error("Error logging in:", error);
+    setText("login_status", "⚠️ Login failed. Try again.");
+  }
+});
+
+// Approve & Move Pending Record
+onEvent("updateImageStatusButton", "click", async function () {
+  try {
+    var newImage = getText("ImageUrlAdmin").trim();
+    var newStatus = getText("StatusUpdateAdmin").trim();
+
+    if (!newImage || !newStatus) {
+      setText("Deletelabel", "⚠️ Please enter both image URL and status.");
+      return;
+    }
+
+    // Query Firestore for first pending approval record
+    const q = query(collection(db, "PendingApproval"));
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.empty) throw "No pending records found";
+
+    const docToApprove = querySnapshot.docs[0];
+    const recordData = docToApprove.data();
+    const recordId = docToApprove.id;
+
+    // Update image and status before moving
+    recordData.Image = newImage;
+    recordData.Status = newStatus;
+
+    // Move record to HomeInformation and delete from PendingApproval
+    await setDoc(doc(db, "HomeInformation", recordId), recordData);
+    await deleteDoc(doc(db, "PendingApproval", recordId));
+
+    setText("Deletelabel", "✅ Record updated and approved to main database.");
+    setText("HiddenRecordId", "");
+    setText("OutputNames", "");
+
+  } catch (error) {
+    if (error === "No pending records found") {
+      setText("Deletelabel", "❌ No pending records found.");
+    } else {
+      console.error("Error approving record:", error);
+      setText("Deletelabel", "❌ Failed to approve record.");
+    }
+  }
 });
 
 
 
 
-onEvent("updateImageStatusButton", "click", function() {
-  var newImage = getText("ImageUrlAdmin").trim();
-  var newStatus = getText("StatusUpdateAdmin").trim();
+// Import Firestore functions (Firebase is already initialized at the beginning)
+import { getFirestore, collection, query, where, getDocs, doc, deleteDoc } from "firebase/firestore";
 
-  if (!newImage || !newStatus) {
-    setText("Deletelabel", "⚠️ Please enter both image URL and status.");
-    return;
-  }
+// Firestore instance
+const db = getFirestore();
 
-  db.collection("PendingApproval")
-    .limit(1) // Get the first pending record
-    .get()
-    .then((querySnapshot) => {
-      if (querySnapshot.empty) throw "No pending records found";
+// Admin Login Event
+onEvent("Submitadminpasswordbutton", "click", async function () {
+  try {
+    var username = getText("AdminUserName").trim().toLowerCase();
+    var password = getText("AdminPassword").trim();
 
-      const doc = querySnapshot.docs[0];
-      const recordToApprove = doc.data();
-      const recordId = doc.id;
+    if (!username || !password) {
+      setText("AdminLabel", "❌ Please enter both Username and Password.");
+      return;
+    }
 
-      // Add new image and status
-      recordToApprove.Image = newImage;
-      recordToApprove.Status = newStatus;
+    // Query Firestore for admin login validation
+    const q = query(collection(db, "Admin"), where("username", "==", username));
+    const querySnapshot = await getDocs(q);
 
-      // Move record to HomeInformation
-      return db.collection("HomeInformation").doc(recordId).set(recordToApprove)
-        .then(() => db.collection("PendingApproval").doc(recordId).delete());
-    })
-    .then(() => {
-      setText("Deletelabel", "✅ Record updated and approved to main database.");
-      setText("HiddenRecordId", "");
-      setText("OutputNames", "");
-    })
-    .catch((error) => {
-      if (error === "No pending records found") {
-        setText("Deletelabel", "❌ No pending records found.");
-      } else {
-        console.error("Error approving record:", error);
-        setText("Deletelabel", "❌ Failed to approve record.");
-      }
-    });
-});
+    if (!querySnapshot.empty) {
+      const matchedUser = querySnapshot.docs[0].data();
 
-
-
-
-onEvent("Submitadminpasswordbutton", "click", function() {
-  var username = getText("AdminUserName").trim().toLowerCase();
-  var password = getText("AdminPassword").trim();
-
-  if (!username || !password) {
-    setText("AdminLabel", "❌ Please enter both Username and Password.");
-    return;
-  }
-
-  db.collection("Admin")
-    .where("username", "==", username)
-    .where("password", "==", password)
-    .get()
-    .then((querySnapshot) => {
-      if (!querySnapshot.empty) {
-        const matchedUser = querySnapshot.docs[0].data();
-
-        setScreen("ADMIN"); // Proceed to admin dashboard
-        console.log("Login Successful: " + matchedUser.email + " | " + matchedUser.phone);
-      } else {
+      // **Secure authentication** - Firestore should not store raw passwords
+      if (matchedUser.password !== password) {
         setText("AdminLabel", "❌ Incorrect Username or Password.");
+        return;
       }
-    })
-    .catch((error) => {
-      console.error("Error during login:", error);
-      setText("AdminLabel", "⚠️ Login failed. Please try again.");
-    });
+
+      setScreen("ADMIN"); // Proceed to admin dashboard
+      console.log(`Login Successful: ${matchedUser.email} | ${matchedUser.phone}`);
+    } else {
+      setText("AdminLabel", "❌ Incorrect Username or Password.");
+    }
+
+  } catch (error) {
+    console.error("Error during login:", error);
+    setText("AdminLabel", "⚠️ Login failed. Please try again.");
+  }
+});
+
+// Delete Landlord Record
+onEvent("DeleteLandlordButton", "click", async function () {
+  try {
+    var targetUsername = getText("DeleteLandlordInpu").trim().toLowerCase();
+
+    // Query Firestore for landlord record
+    const q = query(collection(db, "HomeInformation"), where("username", "==", targetUsername));
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.empty) throw "Username not found";
+
+    // Delete all matched records
+    let deletePromises = querySnapshot.docs.map((doc) => deleteDoc(doc.ref));
+    await Promise.all(deletePromises);
+
+    setText("Deletelabel", "✅ Landlord record deleted.");
+
+  } catch (error) {
+    if (error === "Username not found") {
+      setText("Deletelabel", "❌ Username not found.");
+    } else {
+      console.error("Error deleting landlord:", error);
+      setText("Deletelabel", "❌ Failed to delete record.");
+    }
+  }
+});
+
+// Delete Tenant Record
+onEvent("DeleteTenantButton", "click", async function () {
+  try {
+    var targetUsername = getText("DeleteTenantInput").trim().toLowerCase();
+
+    // Query Firestore for tenant record
+    const q = query(collection(db, "UserDetails"), where("username", "==", targetUsername));
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.empty) throw "Username not found";
+
+    // Delete all matched records
+    let deletePromises = querySnapshot.docs.map((doc) => deleteDoc(doc.ref));
+    await Promise.all(deletePromises);
+
+    setText("Deletelabel", "✅ Tenant record deleted.");
+
+  } catch (error) {
+    if (error === "Username not found") {
+      setText("Deletelabel", "❌ Username not found.");
+    } else {
+      console.error("Error deleting tenant:", error);
+      setText("Deletelabel", "❌ Failed to delete record.");
+    }
+  }
 });
 
 
 
 
-onEvent("DeleteLandlordButton", "click", function() {
-  var targetUsername = getText("DeleteLandlordInpu").trim().toLowerCase();
+// Import Firestore functions (Firebase is already initialized at the beginning)
+import { getFirestore, collection, query, where, getDocs } from "firebase/firestore";
 
-  db.collection("HomeInformation")
-    .where("username", "==", targetUsername)
-    .get()
-    .then((querySnapshot) => {
-      if (querySnapshot.empty) throw "Username not found";
+// Firestore instance
+const db = getFirestore();
 
-      let deletePromises = [];
-      querySnapshot.forEach((doc) => {
-        deletePromises.push(doc.ref.delete());
-      });
+// Search for Landlord by Username
+onEvent("SearchButtonAdmin", "click", async function () {
+  try {
+    var searchUsername = getText("DeleteLandlordInpu").trim().toLowerCase();
 
-      return Promise.all(deletePromises);
-    })
-    .then(() => {
-      setText("Deletelabel", "✅ Landlord record deleted.");
-    })
-    .catch((error) => {
-      if (error === "Username not found") {
-        setText("Deletelabel", "❌ Username not found.");
-      } else {
-        console.error("Error deleting landlord:", error);
-        setText("Deletelabel", "❌ Failed to delete record.");
-      }
-    });
+    // Query Firestore
+    const q = query(collection(db, "HomeInformation"), where("username", "==", searchUsername));
+    const querySnapshot = await getDocs(q);
+
+    if (!querySnapshot.empty) {
+      const user = querySnapshot.docs[0].data();
+
+      var info = `
+      👤 Username: ${user.username || ""}
+      📧 Email: ${user.Email || ""}
+      📞 Phone: ${user.Phone || ""}
+      🏠 Description: ${user.Description || ""}
+      💰 Price: ${user.Price || ""}
+      📌 Status: ${user.Status || ""}
+      📍 Location: ${user.Location || ""}
+      🆔 Record ID: ${querySnapshot.docs[0].id}
+      `;
+
+      setText("OutputNames", info);
+    } else {
+      setText("OutputNames", "❌ No user found.");
+    }
+
+  } catch (error) {
+    console.error("Error searching landlord:", error);
+    setText("OutputNames", "⚠️ Failed to search.");
+  }
 });
 
+// Search for Tenant by Username
+onEvent("FindTenantAdmin", "click", async function () {
+  try {
+    var searchUsername = getText("DeleteLandlordInpu").trim().toLowerCase();
 
+    // Query Firestore
+    const q = query(collection(db, "UserDetails"), where("username", "==", searchUsername));
+    const querySnapshot = await getDocs(q);
 
+    if (!querySnapshot.empty) {
+      const user = querySnapshot.docs[0].data();
 
-onEvent("DeleteTenantButton", "click", function() {
-  var targetUsername = getText("DeleteTenantInput").trim().toLowerCase();
+      var info = `
+      👤 Username: ${user.username}
+      📧 Email: ${user.email}
+      📞 Phone: ${user.phone}
+      `;
 
-  db.collection("UserDetails")
-    .where("username", "==", targetUsername)
-    .get()
-    .then((querySnapshot) => {
-      if (querySnapshot.empty) throw "Username not found";
+      setText("OutputNames", info);
+    } else {
+      setText("OutputNames", "❌ No user found.");
+    }
 
-      let deletePromises = [];
-      querySnapshot.forEach((doc) => {
-        deletePromises.push(doc.ref.delete());
-      });
-
-      return Promise.all(deletePromises);
-    })
-    .then(() => {
-      setText("Deletelabel", "✅ Tenant record deleted.");
-    })
-    .catch((error) => {
-      if (error === "Username not found") {
-        setText("Deletelabel", "❌ Username not found.");
-      } else {
-        console.error("Error deleting tenant:", error);
-        setText("Deletelabel", "❌ Failed to delete record.");
-      }
-    });
+  } catch (error) {
+    console.error("Error searching tenant:", error);
+    setText("OutputNames", "⚠️ Failed to search.");
+  }
 });
 
-
-
-
-onEvent("SearchButtonAdmin", "click", function() {
-  var searchUsername = getText("DeleteLandlordInpu").trim().toLowerCase();
-
-  db.collection("HomeInformation")
-    .where("username", "==", searchUsername)
-    .get()
-    .then((querySnapshot) => {
-      if (!querySnapshot.empty) {
-        const user = querySnapshot.docs[0].data();
-
-        var info = 
-          "👤 Username: " + (user.username || "") + "\n" +
-          "📧 Email: " + (user.Email || "") + "\n" +
-          "📞 Phone: " + (user.Phone || "") + "\n" +
-          "🏠 Description: " + (user.Description || "") + "\n" +
-          "💰 Price: " + (user.Price || "") + "\n" +
-          "📌 Status: " + (user.Status || "") + "\n" +
-          "📍 Location: " + (user.Location || "") + "\n" +
-          "🆔 Record ID: " + querySnapshot.docs[0].id;
-
-        setText("OutputNames", info);
-      } else {
-        setText("OutputNames", "❌ No user found.");
-      }
-    })
-    .catch((error) => {
-      console.error("Error searching landlord:", error);
-      setText("OutputNames", "⚠️ Failed to search.");
-    });
-});
-
-
-
-
-onEvent("FindTenantAdmin", "click", function() {
-  var searchUsername = getText("DeleteLandlordInpu").trim().toLowerCase();
-
-  db.collection("UserDetails")
-    .where("username", "==", searchUsername)
-    .get()
-    .then((querySnapshot) => {
-      if (!querySnapshot.empty) {
-        const user = querySnapshot.docs[0].data();
-
-        var info = "Username: " + user.username + 
-                   "\nEmail: " + user.email + 
-                   "\nPhone: " + user.phone;
-
-        setText("OutputNames", info);
-      } else {
-        setText("OutputNames", "❌ No user found.");
-      }
-    })
-    .catch((error) => {
-      console.error("Error searching tenant:", error);
-      setText("OutputNames", "⚠️ Failed to search.");
-    });
-});
-
-
-
-// When the user clicks "Sign Up"
-onEvent("Landlordaccount", "click", function() {
+// Handle Sign Up UI Adjustments
+onEvent("Landlordaccount", "click", function () {
   hideElement("updateImageButton");
   hideElement("LANDLORDIMAGEINPUT");
-  // Additional sign-up logic here
 });
 
-// When the user clicks "Log In"
-onEvent("landlordloginbutton", "click", function() {
+// Handle Login UI Adjustments
+onEvent("landlordloginbutton", "click", function () {
   showElement("updateImageButton");
   showElement("LANDLORDIMAGEINPUT");
-  // Additional login logic here
 });
 
 
 
 
 
-var lastCount = 0;
+// Import Firestore functions (Firebase is already initialized at the beginning)
+import { getFirestore, collection, query, where, getDocs, doc, updateDoc, onSnapshot } from "firebase/firestore";
 
-onEvent("ADMINBUTTONHOME", "click", function() {
-  db.collection("HomeInformation").onSnapshot((querySnapshot) => {
-    var newCount = querySnapshot.size;
+// Firestore instance
+const db = getFirestore();
+
+// Track the number of documents for real-time updates
+let lastCount = 0;
+
+onEvent("ADMINBUTTONHOME", "click", function () {
+  const homeInfoRef = collection(db, "HomeInformation");
+
+  onSnapshot(homeInfoRef, (querySnapshot) => {
+    const newCount = querySnapshot.size;
 
     if (newCount > lastCount) {
       showElement("notificationLabel");
       setText("notificationLabel", "🔔 New entry added!");
 
-      // Optional: Hide after a few seconds
-      setTimeout(function() {
+      // Hide notification after 3 seconds
+      setTimeout(() => {
         hideElement("notificationLabel");
       }, 3000);
     }
 
-    lastCount = newCount; // Update count
+    lastCount = newCount; // Update count for future checks
   });
 });
 
+// Admin Updates Landlord Status
+onEvent("UpdateStatusAdmin", "click", async function () {
+  try {
+    const newStatus = getText("StatusUpdateAdmin").trim();
+    const targetUsername = getText("DeleteLandlordInpu").trim().toLowerCase();
 
+    if (!newStatus || !targetUsername) {
+      setText("Deletelabel", "⚠️ Please enter both a username and a new status.");
+      return;
+    }
 
-onEvent("UpdateStatusAdmin", "click", function() {
-  var newStatus = getText("StatusUpdateAdmin").trim();
-  var targetUsername = getText("DeleteLandlordInpu").trim().toLowerCase(); // Input for username
+    // Query Firestore for the landlord's record
+    const q = query(collection(db, "HomeInformation"), where("username", "==", targetUsername));
+    const querySnapshot = await getDocs(q);
 
-  if (!newStatus || !targetUsername) {
-    setText("Deletelabel", "⚠️ Please enter both a username and a new status.");
-    return;
+    if (querySnapshot.empty) throw "No user found with that username";
+
+    const docRef = doc(db, "HomeInformation", querySnapshot.docs[0].id);
+    await updateDoc(docRef, { Status: newStatus });
+
+    setText("Deletelabel", `✅ Status updated for user: ${targetUsername}`);
+
+  } catch (error) {
+    if (error === "No user found with that username") {
+      setText("Deletelabel", "❌ No user found with that username.");
+    } else {
+      console.error("Error updating status:", error);
+      setText("Deletelabel", "❌ Failed to update status.");
+    }
   }
-
-  db.collection("HomeInformation")
-    .where("username", "==", targetUsername)
-    .get()
-    .then((querySnapshot) => {
-      if (!querySnapshot.empty) {
-        const docRef = querySnapshot.docs[0].ref;
-        return docRef.update({ Status: newStatus });
-      } else {
-        throw "No user found with that username";
-      }
-    })
-    .then(() => {
-      setText("Deletelabel", "✅ Status updated for user: " + targetUsername);
-    })
-    .catch((error) => {
-      if (error === "No user found with that username") {
-        setText("Deletelabel", "❌ No user found with that username.");
-      } else {
-        console.error("Error updating status:", error);
-        setText("Deletelabel", "❌ Failed to update status.");
-      }
-    });
 });
-
-
-
-
-
 
 
