@@ -1,12 +1,28 @@
- const firebaseConfig = {
-  apiKey: "AIzaSyCA6oxno4zHhbBgOB7Y5EpmR3fMl9Y8SX4",
-  authDomain: "live-281b2.firebaseapp.com",
-  projectId: "live-281b2",
-  storageBucket: "live-281b2.firebasestorage.app",
-  messagingSenderId: "138809616254",
-  appId: "1:138809616254:web:33656c40caa5235a86352f",
-  measurementId: "G-DVLKV5EGF3"
-};
+{
+  "type": "service_account",
+  "project_id": "live-246f6",
+  "private_key_id": "2a8eedbca02d6c8e614c6dcb2f4164b68e9df427",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQC+0Be4e32xYnOw\nLxW0rgCeSW/It/+FWzLmUw3bc15eRhjyT2aX3QQC4pt62GrULUpMvrwHZIDLPenp\nqS5GQa3fwndZiZS2ohnlJRqdJhv1yofgQ59EdqVZIEhJkgCBYNApIPETYeyKK5Ms\ntYJ3q+2r8My8PJ8HVjyKXz8Lv+1OzypiNXphGsSFoIwRZKZww4KncU7R7v0KgNkk\nRiXkRgBleKx0qCPIkl+iIS2x0vAWUy2X917ZP/3V5LhdaZHCHI1Cnyj6Y91DV4qX\n0dnbEK0jQJ9ncQAWh/eXkF3L974a9GG4XijAZSC2Xs32u+RiZhDjaXlgFHa75MSg\nt+qrjLOPAgMBAAECggEAGO1TY/jR+0XayiXkhoWCtCrwzP5ohZHb7OXltgj0x4kN\nwj3oL6eiWgQjfqFeF1jRT4RNSQPypVpxv+InlusGnWgoskw8Xr1/d4Vo3CW52lq6\ndGwxFr8PK70BZIcLxNsSZoUUqU0OGyDFKb6OjDasJl2fSWn79nfoEcWOlWjdxgEl\nRsZfAg5/1fvXQziU6QcEAAL4GoFxoyoM0fGBTDZi8u+ljkM7zLwpukPZTV9qHTHx\n+osKo7SqzKav7vK+cmcd/VpvmdRLojtLg7Y1Uqb9o3rBhlxVl1KIQi1FDZzfNq+r\niYQvDChI/T/DyG3hMs3WY296EqvuVSvPwGWZv+MjqQKBgQD0GP1nGl9UjsZNfg2L\nu+Rb8ED9xNbJS/OXroLeMCYwBBf4BSEZdwc2j288yE0SNFgMMz9Hg7a2OPsJaxlv\ncF6g0Yq5CSZg4tNNVyNOjQj9Nz9QeT9gbXFQiBUwoqPI807QnBRACUA5Wg8SVDbn\nV5hvKXd60Jt0AEDnfPl5The9KQKBgQDIHfZfqU01nMUB1EaMzn/TNyMoFk1/NkVf\nmci+rKS4b0tAOhmk/7hEhkqOKBHo7ZDiy5+zgFDbF3LiCzcra3worcRJx8UqA1ii\nxHM/tBqL1PgkuKUS9IptkafXko2JrEMzJ7B/nfjmTE6Bi7cCbxOBXW9H1EKx4HWQ\nYHKu+iDJ9wKBgBOCY853xyLE/oh3CLIgZFIM08T0lI4mKeP3qLIFeyffS+Mg1dJp\nNwRfVm6vO6m20Uq4VdhraJEL4NSR4MiNXKLR3JqJZq3bszO9QS8oCo3ieob+Cdi1\nJpdfKQJoHVsURzpZHy03EBEFZ6r5XCIFWEOaNth0D9inpIhb7ryJR1BxAoGAMAmh\nPs1xT1FWqV2/ocVgQd+WfOT9rW/lr1FHMx5WXD+7HKvVxBnureReuUk9I2EDyq1+\npKRExJMYbNKsZ6vhnhI4cE2YMsGi4U+vKredN7vj5Uy9s5MoN60jUUhI2aeUag84\n+yl8uivPHKHhSKBJWmCHegKmD/UFw6ajYQWCIXkCgYAl4sqMIIHCfPDmzmp7LWbt\nCk4we8Zaifu71XvYhDCZeT+ruo59XbuAtYEAMZDRatMDBgxKQjWgE7udyk0sJ3FC\ncF5JpFTKHq9Gb7Hr4Ti/I1fZAZbDoRrfAr0825+dnh1svdGB2B4pAZMDn9QpDhtl\nk1lbh6r0DqmtB3DOPVmhrQ==\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-fbsvc@live-246f6.iam.gserviceaccount.com",
+  "client_id": "103420826849890582131",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-fbsvc%40live-246f6.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
+
+
+FileInputStream serviceAccount =
+new FileInputStream("path/to/serviceAccountKey.json");
+
+FirebaseOptions options = new FirebaseOptions.Builder()
+  .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+  .build();
+
+FirebaseApp.initializeApp(options);
+
+
 
   firebase.initializeApp(firebaseConfig);
   const db = firebase.firestore();
